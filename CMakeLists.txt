@@ -18,6 +18,6 @@ add_message_files(
 generate_messages(DEPENDENCIES geometry_msgs std_msgs)
 
 catkin_package(
-  CATKIN_DEPENDS geometry_msgs std_msgs
+  CATKIN_DEPENDS geometry_msgs message_runtime std_msgs
 )
 

@@ -8,11 +8,6 @@
 # is in the direction of the X-axis, typically "straight out" from the sonar.
 # Elevation is the orthogonal direction (rotation about Y),
 # often termed the "vertical aperture"
-#
-# For 2D sonars, this implies the array sits on the X-Z
-# plane with array "horizontal" in the X axis and "vertical"
-# in the Z axis.
-
 
 # The meaning of the header timestamp relative to the sonar's data
 # acquisition cycle is defined by the sonar driver. It is taken to be

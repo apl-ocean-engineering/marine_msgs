@@ -1,128 +1,40 @@
 
 # Contributing
 
-When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the dev team.
+We welcome community contributions, and expect that most discussion of these messages will happen via Github issues and pull requests.
+
+There are many ways to contribute to our goal of developing standardized ROS messages for hydrographic applications:
+
+* If one of the existing messages doesn't work for your use case, open an issue describing what the problem is. Optionally, include a PR with a suggested fix.
+* If you have an open-source package using any of these messages, post a link and description [on the wiki](https://github.com/apl-ocean-engineering/hydrographic_msgs/wiki)
+* If you have a message definition that you think fills a gap in the current set of proposals, submit a pull request.
+
 
 *The maintainers of this repo are:*
 - Laura Lindzey (APL)
-- Brian Bingham (NPS) 
+- Brian Bingham (NPS)
 - Kris Krasnosky (URI)
 
 ## Branching model
 
-We've adopted a branching strategy to ensure that this repo always have a
-stable version readily available for UUV operations.
+This repository only has a single branch: `main`
+
+Rather than feature branches, we expect all development and proposals to occur via pull requests from forks.
 
 
-### Developing new code
+## Releases / Review Process
 
-1. *main* is the production branch, so no direct commits allowed.
-2. You should develop new code under a *feature branch* (typically branched off
-   main)
-    * Each feature should have a dedicated branch
-    * **Keep your feature branch up to date with main to avoid merge conflicts**
-3. Once you're done developing your new feature and have tested it in sim / lab
-  / test tank, create a pull-request to a release branch.
-4. Once approved, the feature branch will be merged to a release branch and
-   closed. Release branches will be tested at sea (possibly for several
-   deployments) and may include more than one feature
-5. Push further fixes to the release branch
-6. Finally, merge the release branch to Master via pull request
+There are no releases =)
 
-Example:
+A PR will be merged when there is a critical mass of people supporting it.
+When applicable, this includes commitments from owners of several repos using the affected message to update their code to match.
 
-            git checkout main
-            git pull --rebase
-            git checkout -b feature/2019-04-29-cool-new-feature
-            # develop on your feature branch...
+Additionally, changes to message definitions are expected to include bag migration rules.
 
-            *--A---B----------------------C--  main
-                    \                    /
-                     \            *--R--S    release
-                      \             /
-                       N---O---P---Q    cool feature
+### Styleguide
 
-            # done? create PR to release and schedule a CR
-
-Don't forget to keep your feature branch up to date with main!
-
-Say, you have:
-
-            *--A---B---C---D---E--- main
-                \
-                 N---O---P---Q----- feature
-
-            # run
-            git fetch origin # update origin/main from the server
-            git stash # if you have uncommitted local changes
-
-            # then do
-            git checkout main # check out your local tracking branch ...
-            git pull --rebase # ... and bring it up to date
-            git checkout feature/2019-04-29-cool-new-feature # go back to your feature branch
-            git merge master # do the actual merge to obtain:
-
-             *--A---B---C---D---E--- main
-                 \               \
-                  N---O---P---Q---R-- feature
-
-            # after merging, don't forget to
-            git stash pop
-
-### Fixing/updating existing code
-
-1. Create a bugfix/hotfix branch and commit your changes to it. Each fix should have a dedicated branch
-2. Test in sim / lab / test tank / at sea!
-3. Create a pull request to Master
-4. Propagate changes to release and feature branches
-
-Example:
-
-            git checkout main
-            git pull --rebase
-            git checkout -b bugfix/2019-04-29-fix-nasty-bug
-            # commit changes to your fix branch...
-
-             *--A---B-----C--  main
-                     \    /\
-              bugfix  X--Y  \
-                             \
-                  N---O---P---Q some release
-
-            # done? create a PR to main and merge to release/feature
-
-Note about hotfixes: please consider creating a feature branch depending on the scope of the changes you're introducing.
-
-## Code of conduct
-
-1. Never commit code that brakes the build
-
-        # also, please test your changes by running the project's unit/regression tests
-        cd path/to/hydrographic_msgs
-
-        # run
-        ??? # to execute unit tests and ...
-        ??? # ... for regression tests
-
-2. Make sure your code meets the project's style guidelines before committing
-
-        # keeping your code in style is easy!
-        make pretty # to format the code (ansi, aStyle 2.05.1) and ...
-        make cxxcheck # ... to check Cxx style
-
-3. If you're making changes in a sub-repo make sure sub-repo pointers point to the right commit
-
-        # quickly test using:
-        cd path/to/hydrographic_msgs
-        git submodule update --recursive
-        # verify the intended commits are checked out in the sub-repos
-
-### Git branch names
-
-1. Feature branch: `feature/yyyy-mm-dd-descriptive-feature-name`
-2. Bugfix branch: `bugfix/yyyy-mm-dd-fix-describe-bug`
-3. Hotfix branch: `hotfix/yyyy-mm-dd-some-descriptive-name`
-3. Release branch: `release/yyyy-mm-dd`
+* Message field names are lowercase, with words separated by underscore. (from the [ROS style guide](http://wiki.ros.org/ROS/Patterns/Conventions))
+* Please configure your editor to strip trailing whitespace
 
 ### Git commit messages
 

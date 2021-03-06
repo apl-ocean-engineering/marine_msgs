@@ -7,7 +7,7 @@ There are many ways to contribute to our goal of developing standardized ROS mes
 
 * If one of the existing messages doesn't work for your use case, open an issue describing what the problem is. Optionally, include a PR with a suggested fix.
 * If you have an open-source package using any of these messages, post a link and description [on the wiki](https://github.com/apl-ocean-engineering/hydrographic_msgs/wiki)
-* If you have a message definition that you think fills a gap in the current set of proposals, submit a pull request.
+* If you have a message definition that you think fills a gap in the current set of proposals, submit a pull request. In order to keep discussion grounded in actual use cases, any proposed messages should already be in use on at least one system, or the PR should describe how it unifies multiple existing in-use messages.
 
 
 *The maintainers of this repo are:*

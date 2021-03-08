@@ -112,7 +112,7 @@ from the instrument (estimated altitude and velocity), they differ in what else 
 
 ### Proposed Message
 
-https://github.com/apl-ocean-engineering/acoustic_msgs/blob/main/msg/Dvl.msg
+https://github.com/apl-ocean-engineering/hydrographic_msgs/blob/main/acoustic_msgs/msg/Dvl.msg
  
 This message started with WHOI’s definition, which has been used in 
 drivers for Nortek and RDI DVLs. There are also corresponding rviz 
@@ -159,7 +159,7 @@ I think that WHOI’s message is an appropriate starting point.
 
 ### Proposed Message
 
-https://github.com/apl-ocean-engineering/acoustic_msgs/blob/main/msg/SonarRanges.msg
+https://github.com/apl-ocean-engineering/hydrographic_msgs/blob/main/acoustic_msgs/msg/SonarRanges.msg
 
 This message started with WHOI’s definition, which has been used on a Reson, 
 a Norbit, and a Kongsberg EM2040. I’ve updated some comments and propose 
@@ -199,7 +199,7 @@ different bearings/ranges vs. a 1D array of ranges at different bearings.
   ranges, and uses a nested array of SonarBeam message rather than a flat intensities array. 
 
 ### Proposed Message
-https://github.com/apl-ocean-engineering/acoustic_msgs/blob/main/msg/SonarImage.msg
+https://github.com/apl-ocean-engineering/hydrographic_msgs/blob/main/acoustic_msgs/msg/SonarImage.msg
 
 This is identical to APL’s updated definition; it has been used with an Oculus M1200D and a Blueview multibeam.
 

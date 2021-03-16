@@ -16,7 +16,7 @@ If you are using these messages, please contact the maintainers so we know to ke
 
 (TODO: Link to CoordinateFrames.md once that PR goes through.)
 
-(TODO: Link to Contributing.md once that PR goes through.)
+We welcome community contributions! Please see [Contributing.md](Contributing.md) for more information on how get involved.
 
 
 ## Repo Structure

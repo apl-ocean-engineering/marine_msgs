@@ -25,10 +25,10 @@
 #     len(elevations_angles) == number of elevations * number of azimuths
 #
 # For each beam, the sonar collects a time sequence of acoustic returns.
-# We assume an estimate of speed of sound is available to convert those
-# round trip travel times to ranges in meters, which are quantized into a
-# fixed number of range bins.   Distance from the sensor to the center of
-# each range bin is reported in the "ranges" vector.
+# We assume an estimate of speed of sound, even if only a constant,
+# is available to convert those round trip travel times to ranges in meters,
+# which are quantized into a fixed number of range bins.   Distance from the
+# sensor to the center of each range bin is reported in the "ranges" vector.
 #
 # The measured acoustic return is stored for each range bin, for each 
 # azimuthal beam, in the "intensities[]" array, as an azimuth-major array.

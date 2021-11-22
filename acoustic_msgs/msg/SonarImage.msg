@@ -22,7 +22,7 @@
 # sonar, the "elevation_angles" and "azimuth_angles" are assumed to be
 # fully unzipped s.t. 
 #     len(azimuth_angles)    == number of elevations * number of azimuths
-#     len(elecations_angles) == number of elevations * number of azimuths
+#     len(elevations_angles) == number of elevations * number of azimuths
 #
 # For each beam, the sonar collects a time sequence of acoustic returns.
 # We assume an estimate of speed of sound is available to convert those

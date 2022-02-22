@@ -13,6 +13,8 @@ add_message_files(
   Dvl.msg
   SonarImage.msg
   SonarRanges.msg
+  MultibeamDetections.msg
+  MultibeamWatercolumn.msg
 )
 
 generate_messages(DEPENDENCIES geometry_msgs std_msgs)

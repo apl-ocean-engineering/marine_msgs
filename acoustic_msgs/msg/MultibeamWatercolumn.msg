@@ -1,8 +1,3 @@
-# Single ping from a profiling sonar.
-#
-# This message is modeled after WHOI's MultibeamRaw.msg, from the
-# ds_multibeam_msgs package (released under a BSD license).
-# Modifications were made by UW-APL.
 
 # The header time should be the time the ping was transmitted, not
 # the time the message was received.
@@ -14,9 +9,9 @@ float32 sound_speed   # m/s
 
 float32 sample_rate   # hz
 
-uint32  num_beams
+uint32  num_beams  # number of beams in the return
 
-uint32  samples_per_beam
+uint32  samples_per_beam  # the number of samples in each beam
 
 # Multi-sector multibeams can transmit different sectors at different times
 # The Reson doesn't but we include a TX delay for each beam anyway.
@@ -30,7 +25,7 @@ float32[] transmit_delay
 
 # Many sonars have some kind of upper gate for water column data
 # this represeents the sample number of the first non empty sample
-# for beam n
+# for beam n   TODO:  this could possibly be a single value  not sure if each beam needs one
 uint32[] sample0
 
 # Steering angle applied to tx beam
@@ -61,4 +56,5 @@ uint32  DTYPE_FLOAT64 = 23
 
 uint32  dtype
 
+# The actualy pixel data in row-major (beam_index major) format
 uint8[] data

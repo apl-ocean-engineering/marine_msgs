@@ -45,19 +45,4 @@ float32[] elevation_angles
 # spaced, and do not necessarily start at zero range.
 float32[] ranges
 
-# True if data is big endian.
-bool      is_bigendian
-
-# Size of each datum (in bytes)
-uint8     data_size
-
-# intensity data [device-specific units].
-#
-# len(intensities) =
-#           len(ranges)
-#         * len(azimuth_angles)
-#         * data_size
-#
-# Intensities are stored azimuth-major order.
-# In analogy to an image array, bearing is "x", range is "y".
-uint8[]   intensities
+SonarImageData image_data

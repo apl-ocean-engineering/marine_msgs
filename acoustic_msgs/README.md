@@ -2,6 +2,9 @@
 
 Messages for DVLs, multibeams, and imaging sonars.
 
+
+
+
 ## Motivation
 
 In the past few years, the community has had a number of discussions on standardizing 
@@ -132,6 +135,8 @@ I propose the following changes from WHOI’s original message:
 * speed_sound -> sound_speed for consistency across acoustic messages
 
 ## Multibeam
+
+![data_structure](https://user-images.githubusercontent.com/23006525/159179135-367ecd08-dfcd-4614-9837-cd3d96d2a513.png)
 ### Background/Discussion
 
 For many applications, a pointcloud is well suited for representing 

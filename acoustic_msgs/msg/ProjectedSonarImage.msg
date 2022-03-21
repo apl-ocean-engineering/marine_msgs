@@ -13,36 +13,14 @@
 # acquisition cycle is defined by the sonar driver. It is taken to be
 # a best estimate of the time when the sonar data is valid, which will
 # the timing information available from the sonar hardware.
-Header header
+std_msgs/Header header
 
-# Center frequency of sonar in Hz
-# Set to 0 if unavailable
-float32 frequency
+PingInfo ping_info
 
-# Speed of sound (m/s) used to calculate ranges;
-# Set to 0 if unavailable
-float32 sound_speed
-
-
-# Beam width (as defined by the vendor) of a single sonar beam in the
-# azimuth direction, in radians
-float32 azimuth_beamwidth
-
-# Beam width (as defined by the vendor) of a single sonar beam in the
-# elevation direction, in radians
-float32 elevation_beamwidth
-
-# Azimuth for center of each beam in radians. Zero bearing is straight
-# ahead with positive to starboard or up, depending on the orientation
-# of the sensor
-float32[] azimuth_angles
-
-# Elevation for each "row" of beams in radians. If left empty, the
-# source is assumed to be a 1D sonar with an elevation of { 0.0 }.
-float32[] elevation_angles
+geometry_msgs/Vector3[] beam_directions
 
 # Center of each range bin in meters. Note this these may not be equally
 # spaced, and do not necessarily start at zero range.
 float32[] ranges
 
-SonarImageData image_data
+SonarImageData image

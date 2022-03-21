@@ -10,38 +10,18 @@
 # especially in deep water.
 std_msgs/Header header
 
+PingInfo ping_info
+
 # Constants declaring whether each beam is good or bad.
 # This is implemented as an 8-bit masked value; it is possible for more
 # than one thing to flag beams as bad. To check if a beam is good, simply
 # check if it is zero.
 
-# Beam is OK
-uint8 BEAM_OK = 0
-# Beam is flagged as bad by the sonar.  Think hard before second-guessing
-uint8 BEAM_BAD_SONAR = 1
-# Beam is flagged as bad by some automated filter applied during processing.
-uint8 BEAM_BAD_FILTER = 2
-# Beam is flagged as bad by the user. This is probably not happening in
-# realtime, but is included here so the same message can be used throughout
-# a post-processing pipeline.
-uint8 BEAD_BAD_USER = 4
-
-# Multibeams require a sound velocity to beamform properly.  This may
-# be helpful for subsequent processing, so we include it here
-# reported in m/s
-float32 sound_speed
-
-# These arrays should have the same dimensions, and should match
-# the number of beams for this sonar.
-#
-# Some fields are optional.  Those should have 0 length.
-
-# Flag values for every beam
-uint8[] flag
+DetectionFlag[] flags
 
 # Truly raw multibeam data uses travel times rather than ranges.
 # reported in seconds
-float32[] two_way_travel_time
+float32[] two_way_travel_times
 
 # Multi-sector multibeams can transmit different sectors at different times
 # The Reson doesn't but we include a TX delay for each beam anyway.
@@ -52,23 +32,17 @@ float32[] two_way_travel_time
 # Each beam's TX time: header.stamp + txDelay[i]
 # Each beam's RX time: header.stamp + txDelay[i] + twowayTravelTime[i]
 # reported in seconds
-float32[] transmit_delay
+float32[] tx_delays
 
 # Sonar-reported intensity.  Usually uncalibrated and crude
-float32[] intensity
+float32[] intensities
 
 # Sonar-reported along-track steering angle (applied to tx beam)
 # + forward, - aft for a downlooking sonar
 # reported in radians
-float32[] tx_angle
+float32[] tx_angles
 
 # Sonar-reported across-track steering angle (applied to rx beam)
 # + to starboard, - to port for a downlooking sonar
 # reported in radians
-float32[] rx_angle
-
-# Sonar reported -3db beamwidths
-# May be empty if not reported
-# reported in radians
-float32[] tx_beamwidth
-float32[] rx_beamwidth
+float32[] rx_angles

@@ -83,6 +83,11 @@ adheres to these guidelines:
   * SonarImage.msg instead of ImagingSonar.msg
   * SonarRanges.msg instead of Multibeam.msg or ProfilingSonar.msg. 
   
+## Coordinate Frame Conventions
+![cordiante_conventions](https://user-images.githubusercontent.com/23006525/160205130-335dc324-f8bb-458f-be0d-e0fe0663969f.png)
+
+
+
 ## DVL 
 ### Existing Messages
 
@@ -134,78 +139,54 @@ I propose the following changes from WHOI’s original message:
   header, and beam ranges/velocities are scalars measured along the corresponding `beam_unit_vec`.
 * speed_sound -> sound_speed for consistency across acoustic messages
 
-## Multibeam
+## Multibeam and Forward Looking Sonar (FLS) messages
 
-![data_structure](https://user-images.githubusercontent.com/23006525/159179135-367ecd08-dfcd-4614-9837-cd3d96d2a513.png)
-### Background/Discussion
-
-For many applications, a pointcloud is well suited for representing 
-multibeam data. However, there are cases where we want to take 
-advantage of the structure of the scan, for example, with raytracing 
-to infer freespace. The LaserScan message is unsuitable for multibeam 
-usage due to its assumption of a planar fan with equiangular beams. 
-So, I think a generic multibeam message is worth discussing.
-
-There’s a good discussion of multibeam messages here, and this comment 
-about how data is represented for non-robotic bathymetric mapping 
-provides great context. 
-
-### Multibeam-specific design decisions:
-* Should the message flag bad points (as expected in standard multibeam processing pipelines) or remove them? 
-
-### Existing message definitions:
-* WHOI’s [ds_multibeam_msgs/MultibeamRaw.msg](https://bitbucket.org/whoidsl/ds_msgs/src/master/ds_multibeam_msgs/msg/MultibeamRaw.msg) 
-  It is known to be suitable for Kongsberg EM2040, Reson and Norbit instruments
-* A proposed message in [marine_ros_conventions_discussion/ProfilingSonar.msg](https://github.com/udgcirs/marine_ros_conventions_discussion/blob/master/sensor_msgs/ProfilingSonar.msg)
-
-Given that the message in the marine_ros_conventions repository makes 
-the same basic assumptions that LaserScan does (planar fan + equiangular), 
-I think that WHOI’s message is an appropriate starting point.
-
-### Proposed Message
-
-https://github.com/apl-ocean-engineering/hydrographic_msgs/blob/main/acoustic_msgs/msg/SonarRanges.msg
-
-This message started with WHOI’s definition, which has been used on a Reson, 
-a Norbit, and a Kongsberg EM2040. I’ve updated some comments and propose 
-the following changes to message fields:
-* **Remove the ds_header** -- DsHeader was an attempt to add some hardware-specific metadata to the sensor processing pipeline. It was never fully implemented, and isn’t consistent with other definitions in sensor_msgs. 
-* **soundspeed -> sound_speed** for consistency
-* **angle{Along,Across}Track -> {elevation, azimuth}_angle**
-* **beamwidth{Along,Acros}Track -> {elevation, azimuth}_beamwidth** -- not all 
-  multibeam sensors will be mounted with the fan perpendicular to the vehicle’s 
-  motion and be used for bathymetric survey, so the field names shouldn’t 
-  have those assumptions baked in. 
-* **twowayTravelTime -> two_way_travel_time, txDelay -> transmit_delay**: 
-  Message fields are typically underscored, not camelcase.
-* **beamflag -> flag** none of the other per-beam arrays have the beam prefix
-
-## Imaging Sonar
-
-### Background/Discussion
-
-Similar to the DVL vs. ADCP question, there’s a question as to where 
-the line is between an imaging sonar and a multibeam.
-
-For the purposes of defining messages, I think the important thing 
-is what type of data you’re getting: a 2D array of intensities at 
-different bearings/ranges vs. a 1D array of ranges at different bearings.
-* There’s no assumption that a SonarImage.msg will have beams that are 
-  much wider across-scan than along-scan, even though that is the traditional
-  configuration for an imaging sonar.
-* A “multibeam” could publish both a SonarRanges.msg and a SonarImage.msg; 
-  one with the range maxima extracted, and the other with full water column intensity data.
+### Organization
+![data_structure](https://user-images.githubusercontent.com/23006525/160207155-eb9c003e-8a9a-460e-8c1d-6240924e81e6.png)
 
 
-### Existing messages:
-* APL’s [SonarImage.msg](https://gitlab.com/apl-ocean-engineering/imaging_sonar_msgs/-/blob/master/msg/ImagingSonar2.msg) 
-* Proposed message in [marine_ros_conventions repo](https://github.com/udgcirs/marine_ros_conventions_discussion/blob/master/sensor_msgs/ImagingSonar.msg); 
-  this differs from APL’s in that it uses min/max/step to specify angles and 
-  ranges, and uses a nested array of SonarBeam message rather than a flat intensities array. 
 
-### Proposed Message
-https://github.com/apl-ocean-engineering/hydrographic_msgs/blob/main/acoustic_msgs/msg/SonarImage.msg
+Multibeam and FLS sonar data (referred to as sonar data for brevity) are broken into two type categories, detections and images.   Images are intended to represent Watercolumn or FLS imaging data.   Detections represent a dection reported by the sonar for a given beam.   
 
-This is identical to APL’s updated definition; it has been used with an Oculus M1200D and a Blueview multibeam.
+Sonar data is also orgaized into two domain categories,  temporal and spatial.  Messages are inteded to be intitally reported in the temporal domain by the sonar drive then converted to the spatial domain through a processing pipeline.   However, some sonars report images and detections directly in the spatial domain.  In this case, sensor drivers may report direclty with the appropriate temporal message.
+
+### Data structure
+the Sonar messages consist of top level messages:
+* RawSonarImage
+* ProjectedSonarImage
+* SonarDetection
+* SonarRanges
+
+These messages share common data in the following sub-messages:
+* DetectionFlag
+* PingInfo
+* SonarImageData
+
+#### SonarImageData packing
+
+It's worth mentioning how the data is packed in the sonar image message as it may not be obvious.
+
+* the actual pixel data is in row-major (i.e beam_no major) order.
+* the pixel data is stored as an array of bytes (uint8). It should be cast as the type specified in dtype flag. They are enumerated in the message
+* to find the range for each cell: (sample_number + sample0) * sound_speed / (2.0 * sample_rate)
+
+The image details details how image data is stored.
+
+![wcl_def](https://user-images.githubusercontent.com/23006525/160203744-7fc6b06a-ac3d-4419-b6a9-fec83e07cef7.png)
 
 
+### Geometry Conventions
+![rx_tx_detail](https://user-images.githubusercontent.com/23006525/160200735-2698b659-27f9-4309-ac3f-1b891858ddb3.png)
+
+* angles/beam directions in the sptaial domain shall:
+  * be reported as unit vectors according to the in the corridate frame convention specified above.   
+  * be reported at time reported in the header timestamp.  (at or before transmit time)  
+* angles/beam directions in the temporal domain shall be reported as transmit (Tx) and receive (Rx) angles according to the diagram above
+  * rx_angle is defined as the angle from the y-z plane at receive time. Positive rotation around the z axis.  This angle defines a cone of possible returns directions for a given beam.
+  * tx_anlge is defined as the angle from the x-y plane at transmit time. Positive rotation around the y axis.  This angle defines a cone that represents the area insonified by the tx pulse.  
+
+### Style Conventions
+These messages were designed to comply withe the conventions set forth by the [ROS/Patterens/Conventions guide](http://wiki.ros.org/ROS/Patterns/Conventions#Messages).   Beyond that, we have set the following conventions:
+* All vector quantities should have plural names
+* data strutures should be represented as a "structures of arrays" rather than "arrays of structures".
+* vectors quantities may be of length zero.  This shall be interpreted as unreported.  (see internal MSG doccumentaiton for more detials)

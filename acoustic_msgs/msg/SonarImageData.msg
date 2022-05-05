@@ -13,6 +13,9 @@ uint32  DTYPE_FLOAT64 = 9
 
 uint32  dtype
 
+# the number of beams associated with the image
+uint32 num_beams
+
 # The actualy pixel data in row-major (beam_index major) format
 uint8[] data
 

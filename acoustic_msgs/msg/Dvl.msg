@@ -4,6 +4,7 @@
 # repository, which was released under a BSD license.
 # Modifications were made by UW-APL.
 
+# TODO: check style concistency with sonar messages for
 
 # ENUM: Velocity mode
 uint8 DVL_MODE_BOTTOM=1

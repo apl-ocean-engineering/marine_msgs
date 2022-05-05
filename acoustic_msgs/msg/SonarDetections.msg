@@ -1,4 +1,4 @@
-# Single ping from a profiling sonar.
+# Single ping from a multibeam sonar.
 #
 # This message is modeled after WHOI's MultibeamRaw.msg, from the
 # ds_multibeam_msgs package (released under a BSD license).
@@ -19,6 +19,10 @@ PingInfo ping_info
 
 DetectionFlag[] flags
 
+# Truly raw multibeam data uses travel times rather than ranges.
+# reported in seconds
+float32[] two_way_travel_times
+
 # Multi-sector multibeams can transmit different sectors at different times
 # The Reson doesn't but we include a TX delay for each beam anyway.
 #
@@ -27,12 +31,18 @@ DetectionFlag[] flags
 # header.stamp: TX cycle starts
 # Each beam's TX time: header.stamp + txDelay[i]
 # Each beam's RX time: header.stamp + txDelay[i] + twowayTravelTime[i]
-float32[] transmit_delays
+# reported in seconds
+float32[] tx_delays
 
 # Sonar-reported intensity.  Usually uncalibrated and crude
 float32[] intensities
 
-geometry_msgs/Vector3[] beam_unit_vec
+# Sonar-reported along-track steering angle (applied to tx beam)
+# + forward, - aft for a downlooking sonar
+# reported in radians
+float32[] tx_angles
 
-float32[] ranges
-
+# Sonar-reported across-track steering angle (applied to rx beam)
+# + to starboard, - to port for a downlooking sonar
+# reported in radians
+float32[] rx_angles

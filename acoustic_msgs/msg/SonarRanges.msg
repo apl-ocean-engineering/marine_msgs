@@ -10,6 +10,8 @@
 # especially in deep water.
 std_msgs/Header header
 
+PingInfo ping_info
+
 # Constants declaring whether each beam is good or bad.
 # This is implemented as an 8-bit masked value; it is possible for more
 # than one thing to flag beams as bad. To check if a beam is good, simply

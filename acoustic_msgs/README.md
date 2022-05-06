@@ -3,11 +3,6 @@
 Messages for DVLs, multibeams, and imaging sonars.
 
 
-Packages using these messages
-
-
-
-
 
 ## Motivation
 

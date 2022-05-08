@@ -141,7 +141,7 @@ I propose the following changes from WHOI’s original message:
 
 Multibeam and FLS sonar data (referred to as sonar data for brevity) are broken into two type categories, detections and images.   Images are intended to represent Watercolumn or FLS imaging data.   Detections represent a detection reported by the sonar for a given beam.   
 
-Sonar data is also organized into two domain categories,  temporal and spatial.  Messages are intended to be initially reported in the temporal domain by the sonar drive then converted to the spatial domain through a processing pipeline.   However, some sonars report images and detections directly in the spatial domain.  In this case, sensor drivers may report directly with the appropriate spacial message.
+Sonar data is also organized into two domain categories,  temporal and spatial.  Messages are intended to be initially reported in the temporal domain by the sonar drive then converted to the spatial domain through a processing pipeline.   However, some sonars report images and detections directly in the spatial domain.  In this case, sensor drivers may report directly with the appropriate spatial message.
 
 ### Data structure
 the Sonar messages consist of top level messages:
@@ -184,6 +184,6 @@ The image details details how image data is stored.
 ### Style Conventions
 These messages were designed to comply with the conventions set forth by the [ROS/Patterns/Conventions guide](http://wiki.ros.org/ROS/Patterns/Conventions#Messages).   Beyond that, we have set the following conventions:
 * All vector quantities should have plural names
-* Variable length message components should be represented as vectors of core ros mesages like std_msgs or geometry_msgs.  Avoid variable length arrays of custom message types. In otherwords, favor "structures of arrays" rather than "arrays of structures".
+* Variable length message components should be represented as vectors of core ros mesages like std_msgs or geometry_msgs.  Avoid variable length arrays of custom message types.  * In otherwords, favor "structures of arrays" rather than "arrays of structures". One exception is the case where data must be grouped to be interpreted properly AND is shared across multiple messages.  (eg. an int with an associated enum.  See PingInfo.msg) 
 * Message components common to several top-level messages should be split into sub-messages.  (eg. PingInfo is shared by SonarRanges, SonarDetections and RawSonarImage)
 * **(PROVISIONAL)** Vector quantities may be of length zero.  This shall be interpreted as "unreported".  (see internal MSG documentation for more details)

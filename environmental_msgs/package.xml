@@ -2,7 +2,7 @@
 <package format="2">
   <name>environmental_msgs</name>
   <version>0.0.0</version>
-  <description>The environmental_smgs package, with proposed messages for common
+  <description>The environmental_msgs package, with proposed messages for common
   underwater environmental sensors (e.g., conductivity, turbidity, dissolved oxygen)
   </description>
 

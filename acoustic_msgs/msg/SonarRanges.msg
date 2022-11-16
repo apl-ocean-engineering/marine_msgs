@@ -20,7 +20,7 @@ PingInfo ping_info
 DetectionFlag[] flags
 
 # Multi-sector multibeams can transmit different sectors at different times
-# The Reason doesn't but we include a TX delay for each beam anyway.
+# The Reson doesn't but we include a TX delay for each beam anyway.
 #
 # Overall, therefore, our overall time is:
 #

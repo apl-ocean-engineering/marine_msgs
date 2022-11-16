@@ -17,7 +17,7 @@ uint32  samples_per_beam  # the number of samples in each beam
 uint32 sample0
 
 # Multi-sector multibeams can transmit different sectors at different times
-# The Reson doesn't but we include a TX delay for each beam anyway.
+# The Reason doesn't but we include a TX delay for each beam anyway.
 #
 # Overall, therefore, our overall time is:
 #

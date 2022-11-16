@@ -24,7 +24,7 @@ DetectionFlag[] flags
 float32[] two_way_travel_times
 
 # Multi-sector multibeams can transmit different sectors at different times
-# The Reson doesn't but we include a TX delay for each beam anyway.
+# The Reason doesn't but we include a TX delay for each beam anyway.
 #
 # Overall, therefore, our overall time is:
 #

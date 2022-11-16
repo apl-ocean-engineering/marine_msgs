@@ -39,7 +39,7 @@ jobs:
         uses: pat-s/always-upload-cache@3.0.11
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ccache-${{ env.CACHE_PREFIX }}-${{ github.sha }}  
+          key: ccache-${{ env.CACHE_PREFIX }}-${{ github.sha }}
           restore-keys: |
             ccache-${{ env.CACHE_PREFIX }}-${{ github.sha }}
             ccache-${{ env.CACHE_PREFIX }}

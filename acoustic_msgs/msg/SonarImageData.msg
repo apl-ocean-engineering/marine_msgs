@@ -16,6 +16,5 @@ uint32  dtype
 # the number of beams associated with the image
 uint32 beam_count
 
-# The actualy pixel data in row-major (beam_index major) format
+# The actually pixel data in row-major (beam_index major) format
 uint8[] data
-

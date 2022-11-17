@@ -17,7 +17,7 @@ There are many ways to contribute to our goal of developing standardized ROS mes
 
 ## Branching model
 
-This repository only has a single branch: `main`
+This repository only has two branches: while `main` branch supports ROS1 Noetic, `ros2` branch supports ROS2 Foxy, Humble and Rolling.
 
 Rather than feature branches, we expect all development and proposals to occur via pull requests from forks.
 
@@ -34,7 +34,21 @@ Additionally, changes to message definitions are expected to include bag migrati
 ### Styleguide
 
 * Message field names are lowercase, with words separated by underscore. (from the [ROS style guide](http://wiki.ros.org/ROS/Patterns/Conventions))
-* Please configure your editor to strip trailing whitespace
+* We use pre-commit to check for formmating and styling:
+
+**pre-commit**
+
+pre-commit is a tool that is used in hydrographic_msgs to check and apply style guidelines automatically. To install pre-commit into your system:
+
+    pip3 install pre-commit
+
+Then under hydrographic_msgs directory install the git hooks like this:
+
+    cd $CATKIN_WS/src/hydrographic_msgs && pre-commit install
+
+With this pre-commit will automatically run and check a list of styling including clang-format, end of files and trailing whitespaces whenever you run `git commit`. To run pre-commit any time other than `git commit`:
+
+    cd $CATKIN_WS/src/hydrographic_msgs && pre-commit run -a
 
 ### Git commit messages
 
@@ -42,4 +56,3 @@ Additionally, changes to message definitions are expected to include bag migrati
 2. Use the present tense ("Add feature" not "Added feature")
 3. Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
 4. Limit the first line to 72 characters or less
-

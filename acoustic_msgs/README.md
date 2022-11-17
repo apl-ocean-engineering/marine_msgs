@@ -77,7 +77,7 @@ adheres to these guidelines:
   types should be named after the type of data rather than type of sensor:
   * SonarImage.msg instead of ImagingSonar.msg
   * SonarRanges.msg instead of Multibeam.msg or ProfilingSonar.msg.
- 
+
 ## Coordinate Frame Conventions
 ![cordiante_conventions](https://user-images.githubusercontent.com/23006525/167165812-008ccccb-31a7-4c13-b2da-6235d37a7a3b.png)
 
@@ -92,7 +92,7 @@ The most widely used messages appear to be:
   The main implementation difference between ds_sensor_msgs and uuv_simulator is
   whether the top-level DVL message includes the beam data in an array,
   or whether there is an array of DvlBeam messages.
-* UWSim’s [underwater_sensor_msgs/DVL.msg](https://github.com/uji-ros-pkg/underwater_simulation/blob/melodic-devel/underwater_sensor_msgs/msg/DVL.msg).  
+* UWSim’s [underwater_sensor_msgs/DVL.msg](https://github.com/uji-ros-pkg/underwater_simulation/blob/melodic-devel/underwater_sensor_msgs/msg/DVL.msg).
   It is not particularly idiomatic for a ROS message: Rather than using a
   Vector3 for velocity, it has individual fields (wi_{x,y,z}_axis); and
   rather than using TF to transform between frames, it includes the data in
@@ -114,7 +114,7 @@ from the instrument (estimated altitude and velocity), they differ in what else 
 ### Proposed Message
 
 https://github.com/apl-ocean-engineering/hydrographic_msgs/blob/main/acoustic_msgs/msg/Dvl.msg
- 
+
 This message started with WHOI’s definition, which has been used in
 drivers for Nortek and RDI DVLs. There are also corresponding rviz
 and gazebo plugins. (I have trivial forks of those plugins supporting the proposed message.)
@@ -139,7 +139,7 @@ I propose the following changes from WHOI’s original message:
 
 
 
-Multibeam and FLS sonar data (referred to as sonar data for brevity) are broken into two type categories, detections and images.   Images are intended to represent Watercolumn or FLS imaging data.   Detections represent a detection reported by the sonar for a given beam.   
+Multibeam and FLS sonar data (referred to as sonar data for brevity) are broken into two type categories, detections and images.   Images are intended to represent Watercolumn or FLS imaging data.   Detections represent a detection reported by the sonar for a given beam.
 
 Sonar data is also organized into two domain categories,  temporal and spatial.  Messages are intended to be initially reported in the temporal domain by the sonar drive then converted to the spatial domain through a processing pipeline.   However, some sonars report images and detections directly in the spatial domain.  In this case, sensor drivers may report directly with the appropriate spatial message.
 
@@ -173,8 +173,8 @@ The image details details how image data is stored.
 
 
 * angles/beam directions in the spatial domain shall:
-  * be reported as unit vectors according to the coordinate frame convention specified above.   
-  * be reported at time reported in the header timestamp.  (at or before transmit time)  
+  * be reported as unit vectors according to the coordinate frame convention specified above.
+  * be reported at time reported in the header timestamp.  (at or before transmit time)
 * angles/beam directions in the temporal domain shall be reported as transmit (Tx) and receive (Rx) angles according to the diagram above
   * rx_angle is defined as the elevation from the X-Z plane at receive time. This elevation is positive toward the Y axis.  This elevation defines a cone of possible return directions for a given return beam.
   * tx_angle is defined as the elevation from the Y-Z plane at transmit time. This elevation is positive toward the X axis.  This elevation defines a cone that represents the area insonified by the tx pulse.
@@ -184,6 +184,6 @@ The image details details how image data is stored.
 ### Style Conventions
 These messages were designed to comply with the conventions set forth by the [ROS/Patterns/Conventions guide](http://wiki.ros.org/ROS/Patterns/Conventions#Messages).   Beyond that, we have set the following conventions:
 * All vector quantities should have plural names
-* Variable length message components should be represented as vectors of core ros mesages like std_msgs or geometry_msgs.  Avoid variable length arrays of custom message types.  * In otherwords, favor "structures of arrays" rather than "arrays of structures". One exception is the case where data must be grouped to be interpreted properly AND is shared across multiple messages.  (eg. an int with an associated enum.  See PingInfo.msg) 
+* Variable length message components should be represented as vectors of core ros messages like std_msgs or geometry_msgs.  Avoid variable length arrays of custom message types.  * In otherwords, favor "structures of arrays" rather than "arrays of structures". One exception is the case where data must be grouped to be interpreted properly AND is shared across multiple messages.  (eg. an int with an associated enum.  See PingInfo.msg)
 * Message components common to several top-level messages should be split into sub-messages.  (eg. PingInfo is shared by SonarRanges, SonarDetections and RawSonarImage)
 * **(PROVISIONAL)** Vector quantities may be of length zero.  This shall be interpreted as "unreported".  (see internal MSG documentation for more details)

@@ -9,10 +9,10 @@
 # Elevation is the orthogonal direction (rotation about Y),
 # often termed the "vertical aperture"
 
-# The meaning of the header timestamp relative to the sonar's data
-# acquisition cycle is defined by the sonar driver. It is taken to be
-# a best estimate of the time when the sonar data is valid, which will
-# the timing information available from the sonar hardware.
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
 std_msgs/Header header
 
 PingInfo ping_info

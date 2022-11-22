@@ -75,4 +75,3 @@ float32[4] beam_quality
 float32[4] beam_velocity
 # Covariance, as always, should be -1 if unknown
 float32[4] beam_velocity_covar
-

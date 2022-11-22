@@ -24,10 +24,10 @@ We welcome community contributions! Please see [Contributing.md](Contributing.md
 Messages are split into packages based on the following categories:
 
 * acoustic_msgs -- data from acoustic sensors
-  * Dvl.msg 
+  * Dvl.msg
   * SonarRanges.msg -- any fan-shaped sonar returning angle/range data.
   * SonarImage.msg -- any fan-shaped sonar with intensity/range data.
-  
+
 * environmental_msgs -- in-situ measurements of water properties
   * oxygen
   * CTD
@@ -35,4 +35,4 @@ Messages are split into packages based on the following categories:
   * etc.
 
 * hydrographic_core_msgs -- utility messages common across multiple sensors
-  * raw data  
+  * raw data

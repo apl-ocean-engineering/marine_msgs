@@ -184,6 +184,6 @@ The image details details how image data is stored.
 ### Style Conventions
 These messages were designed to comply with the conventions set forth by the [ROS/Patterns/Conventions guide](http://wiki.ros.org/ROS/Patterns/Conventions#Messages).   Beyond that, we have set the following conventions:
 * All vector quantities should have plural names
-* Variable length message components should be represented as vectors of core ros mesages like std_msgs or geometry_msgs.  Avoid variable length arrays of custom message types.  * In otherwords, favor "structures of arrays" rather than "arrays of structures". One exception is the case where data must be grouped to be interpreted properly AND is shared across multiple messages.  (eg. an int with an associated enum.  See PingInfo.msg)
+* Variable length message components should be represented as vectors of core ros messages like std_msgs or geometry_msgs.  Avoid variable length arrays of custom message types.  * In otherwords, favor "structures of arrays" rather than "arrays of structures". One exception is the case where data must be grouped to be interpreted properly AND is shared across multiple messages.  (eg. an int with an associated enum.  See PingInfo.msg)
 * Message components common to several top-level messages should be split into sub-messages.  (eg. PingInfo is shared by SonarRanges, SonarDetections and RawSonarImage)
 * **(PROVISIONAL)** Vector quantities may be of length zero.  This shall be interpreted as "unreported".  (see internal MSG documentation for more details)

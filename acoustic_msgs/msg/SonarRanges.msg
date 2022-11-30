@@ -35,4 +35,3 @@ float32[] intensities
 geometry_msgs/Vector3[] beam_unit_vec
 
 float32[] ranges
-

@@ -4,8 +4,6 @@
 # repository, which was released under a BSD license.
 # Modifications were made by UW-APL.
 
-# TODO: check style concistency with sonar messages for
-
 # ENUM: Velocity mode
 uint8 DVL_MODE_BOTTOM=1
 uint8 DVL_MODE_WATER=2
@@ -25,6 +23,9 @@ uint8 DVL_TYPE_PHASED_ARRAY=1
 # The standard ROS header.
 # Timestamp is neither transmit nor receive time -- it is the time that
 # the velocity should be considered valid at.
+# Frame convention:
+# * z-axis in direction DVL is pointing
+# * x-axis aligned with vehicle forward
 std_msgs/Header header
 
 # Velocity mode (see above)

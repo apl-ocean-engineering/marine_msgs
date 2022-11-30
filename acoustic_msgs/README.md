@@ -45,13 +45,13 @@ adheres to these guidelines:
       of the standard message, following the Image/CameraInfo pattern.
   - In order to support generality for a wide range of sensors, there will be some
     fields that are not applicable to some sensors.
-    (e.g. per-beam elevation angles; per-beam beamwidth)
-    * If not supported at all, leave that array empty
-    * If value is constant across the data frame, array should be length 1
+    * If not supported at all, the array may be left empty.
+    * If value is constant across the data frame, array may be length 1.
     * Otherwise, the length of each array should match the length of the data.
-* Underwater acoustic messages should include the speed of sound
+* "raw/temporal" Underwater acoustic messages should include the speed of sound
   (field will be called sound_speed) that was used by the sensor, as well as any
   information required to raytrace the data with a new sound velocity profile.
+* "processed/spatial" acoustic messages will have the ray-tracing already performed.
 * The beam geometry is specified as a per-beam vector relative to the frame in
   the header. This is an alternative to other approaches that have been used, including:
   * additional TF frames for individual beams, which will quickly become unwieldy

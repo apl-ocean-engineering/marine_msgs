@@ -8,7 +8,7 @@
 
   <maintainer email="lindzey@uw.edu">Laura Lindzey</maintainer>
 
-  <license>BSD</license>
+  <license>BSD-3-Clause</license>
 
   <author email="amarburg@uw.edu">Aaron Marburg</author>
   <author email="lindzey@uw.edu">Laura Lindzey</author>
@@ -16,7 +16,7 @@
 
   <!-- The *depend tags are used to specify dependencies -->
   <!-- Dependencies can be catkin packages or system dependencies -->
-  <!-- Examples: -->
+  <!-- Examples: --
   <!-- Use depend as a shortcut for packages that are both build and exec dependencies -->
   <!--   <depend>roscpp</depend> -->
   <!--   Note that this is equivalent to the following: -->

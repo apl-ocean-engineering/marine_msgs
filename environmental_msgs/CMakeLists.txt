@@ -1,11 +1,14 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5)
 project(environmental_msgs)
 
-find_package(catkin REQUIRED COMPONENTS geometry_msgs message_generation
-                                        std_msgs)
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(std_msgs REQUIRED)
 
-add_message_files(DIRECTORY msg FILES TurbidityNTU.msg)
+set(MSG_FILES "msg/TurbidityNTU.msg")
 
-generate_messages(DEPENDENCIES std_msgs)
+rosidl_generate_interfaces(${PROJECT_NAME} ${MSG_FILES} DEPENDENCIES std_msgs)
 
-catkin_package(CATKIN_DEPENDS message_runtime std_msgs)
+ament_export_dependencies(rosidl_default_runtime)
+
+ament_package()

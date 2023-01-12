@@ -1,25 +1,24 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5)
+project(acoustic_msgs)
 
-get_filename_component(PACKAGE_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-message("Creating Package: ${PACKAGE_NAME}")
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
-project(${PACKAGE_NAME})
+set(MSG_FILES
+    "msg/DetectionFlag.msg"
+    "msg/Dvl.msg"
+    "msg/PingInfo.msg"
+    "msg/ProjectedSonarImage.msg"
+    "msg/RawSonarImage.msg"
+    "msg/SonarDetections.msg"
+    "msg/SonarImageData.msg"
+    "msg/SonarRanges.msg")
 
-find_package(catkin REQUIRED COMPONENTS message_generation std_msgs
-                                        geometry_msgs)
+rosidl_generate_interfaces(${PROJECT_NAME} ${MSG_FILES} DEPENDENCIES std_msgs
+                           geometry_msgs)
 
-file(
-  GLOB rosMsgFiles
-  RELATIVE "${${PROJECT_NAME}_SOURCE_DIR}/msg"
-  "${${PROJECT_NAME}_SOURCE_DIR}/msg/*.msg")
+ament_export_dependencies(rosidl_default_runtime)
 
-foreach(rosMsg ${rosMsgFiles})
-  message(STATUS "Processing message file: ${rosMsg}")
-  add_message_files(FILES ${rosMsg})
-endforeach(rosMsg)
-
-add_message_files(DIRECTORY msg FILES ${rosMsg})
-
-generate_messages(DEPENDENCIES geometry_msgs std_msgs)
-
-catkin_package(CATKIN_DEPENDS message_runtime std_msgs geometry_msgs)
+ament_package()

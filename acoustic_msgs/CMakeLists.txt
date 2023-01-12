@@ -6,23 +6,18 @@ find_package(rosidl_default_generators REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-set(msg_files
-  "msg/DetectionFlag.msg"
-  "msg/Dvl.msg"
-  "msg/PingInfo.msg"
-  "msg/ProjectedSonarImage.msg"
-  "msg/RawSonarImage.msg"
-  "msg/SonarDetections.msg"
-  "msg/SonarImageData.msg"
-  "msg/SonarRanges.msg"
-)
+set(MSG_FILES
+    "msg/DetectionFlag.msg"
+    "msg/Dvl.msg"
+    "msg/PingInfo.msg"
+    "msg/ProjectedSonarImage.msg"
+    "msg/RawSonarImage.msg"
+    "msg/SonarDetections.msg"
+    "msg/SonarImageData.msg"
+    "msg/SonarRanges.msg")
 
-rosidl_generate_interfaces(${PROJECT_NAME}
-  ${msg_files}
-  DEPENDENCIES
-    std_msgs
-    geometry_msgs
-)
+rosidl_generate_interfaces(${PROJECT_NAME} ${MSG_FILES} DEPENDENCIES std_msgs
+                           geometry_msgs)
 
 ament_export_dependencies(rosidl_default_runtime)
 

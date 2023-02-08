@@ -33,6 +33,7 @@
 
   <export>
     <rosbag_migration_rule rule_file="bmr/projected_sonar_image.bmr"/>
+    <rosbag_migration_rule rule_file="bmr/package_rename.bmr"/>
   </export>
 
 </package>

@@ -196,9 +196,18 @@ uint8[] data
 
     order = 2
     migrated_types = [
-        ("Header", "Header"),
+        ("std_msgs/Header", "std_msgs/Header"),
+        ("geometry_msgs/Vector3", "geometry_msgs/Vector3"),
+        ("acoustic_msgs/PingInfo", "marine_acoustic_msgs/PingInfo"),
+        ("acoustic_msgs/SonarImageData", "marine_acoustic_msgs/SonarImageData"),
     ]
     valid = True
 
     def update(self, old_msg, new_msg):
         self.migrate(old_msg.header, new_msg.header)
+        self.migrate(old_msg.ping_info, new_msg.ping_info)
+        self.migrate_array(
+            old_msg.beam_directions, new_msg.beam_directions, "geometry_msgs/Vector3"
+        )
+        new_msg.ranges = old_msg.ranges
+        self.migrate(old_msg.image, new_msg.image)

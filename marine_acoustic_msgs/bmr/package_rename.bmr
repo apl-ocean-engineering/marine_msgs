@@ -1,0 +1,204 @@
+class update_acoustic_msgs_ProjectedSonarImage_c72fc8e29ab227a547720a36666022fd(
+    MessageUpdateRule
+):
+    old_type = "acoustic_msgs/ProjectedSonarImage"
+    old_full_text = """
+# Single scan from an imaging sonar
+#
+# The Z-axis is centered in the plane of the fan ("forward"), with X up,
+# in order to be consistent with the NED for traditional multibeam profilers.
+#
+# For sonars with a 1D array, the beams lie on the Y-Z plane, and
+# and each beam has an azimuth (rotation about X) value.  Zero azimuth
+# is in the direction of the Z-axis, typically "straight out" from the sonar.
+# Elevation is the orthogonal direction (rotation about Y),
+# often termed the "vertical aperture"
+
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+geometry_msgs/Vector3[] beam_directions
+
+# Center of each range bin in meters. Note this these may not be equally
+# spaced, and do not necessarily start at zero range.
+float32[] ranges
+
+SonarImageData image
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space.
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
+================================================================================
+MSG: acoustic_msgs/SonarImageData
+bool    is_bigendian
+
+uint32  DTYPE_UINT8 = 0
+uint32  DTYPE_INT8 = 1
+uint32  DTYPE_UINT16 = 2
+uint32  DTYPE_INT16 = 3
+uint32  DTYPE_UINT32 = 4
+uint32  DTYPE_INT32 = 5
+uint32  DTYPE_UINT64 = 6
+uint32  DTYPE_INT64 = 7
+uint32  DTYPE_FLOAT32 = 8
+uint32  DTYPE_FLOAT64 = 9
+
+uint32  dtype
+
+# the number of beams associated with the image
+uint32 beam_count
+
+# The actually pixel data in row-major (beam_index major) format
+uint8[] data
+"""
+    new_type = "marine_acoustic_msgs/ProjectedSonarImage"
+    new_full_text = """
+# Single scan from an imaging sonar
+#
+# The Z-axis is centered in the plane of the fan ("forward"), with X up,
+# in order to be consistent with the NED for traditional multibeam profilers.
+#
+# For sonars with a 1D array, the beams lie on the Y-Z plane, and
+# and each beam has an azimuth (rotation about X) value.  Zero azimuth
+# is in the direction of the Z-axis, typically "straight out" from the sonar.
+# Elevation is the orthogonal direction (rotation about Y),
+# often termed the "vertical aperture"
+
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+geometry_msgs/Vector3[] beam_directions
+
+# Center of each range bin in meters. Note this these may not be equally
+# spaced, and do not necessarily start at zero range.
+float32[] ranges
+
+SonarImageData image
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space.
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
+================================================================================
+MSG: marine_acoustic_msgs/SonarImageData
+bool    is_bigendian
+
+uint32  DTYPE_UINT8 = 0
+uint32  DTYPE_INT8 = 1
+uint32  DTYPE_UINT16 = 2
+uint32  DTYPE_INT16 = 3
+uint32  DTYPE_UINT32 = 4
+uint32  DTYPE_INT32 = 5
+uint32  DTYPE_UINT64 = 6
+uint32  DTYPE_INT64 = 7
+uint32  DTYPE_FLOAT32 = 8
+uint32  DTYPE_FLOAT64 = 9
+
+uint32  dtype
+
+# the number of beams associated with the image
+uint32 beam_count
+
+# The actually pixel data in row-major (beam_index major) format
+uint8[] data
+"""
+
+    order = 2
+    migrated_types = [
+        ("Header", "Header"),
+    ]
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        self.migrate(old_msg.header, new_msg.header)

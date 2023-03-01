@@ -7,8 +7,6 @@ std_msgs/Header header
 
 PingInfo ping_info
 
-float32 sample_rate   # hz
-
 uint32  samples_per_beam  # the number of samples in each beam
 
 # Many sonars have some kind of upper gate for water column data

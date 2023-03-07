@@ -11,10 +11,7 @@ If you are using these messages, please contact the maintainers so we know to ke
 - Roland Arsenault (UNH CCOM)
 
 
-
 ## Conventions
-
-(TODO: Link to CoordinateFrames.md once that PR goes through.)
 
 We welcome community contributions! Please see [Contributing.md](Contributing.md) for more information on how get involved.
 
@@ -25,13 +22,18 @@ Messages are currently split into packages.
 
 * marine_acoustic_msgs -- data from acoustic sensors
   * Dvl.msg
-  * SonarRanges.msg -- any fan-shaped sonar returning angle/range data.
-  * SonarImage.msg -- any fan-shaped sonar with intensity/range data.
+  * Imaging Sonars -- any fan-shaped sonar with intensity/range data.
+    * RawSonarImage.msg -- raw angles
+    * ProjectedSonarImage.msg -- raytraced data
+  * Profiling Sonars -- any fan-shaped sonar returning angle/range data.
+    * SonarDetections.msg -- raw angles/TWTT
+    * SonarRanges.msg -- raytraced data
 
 * marine_sensor_msgs -- standalone messages from individual sensors
-  * oxygen
-  * CTD
-  * Optical Backscatter
+  * Turbidity
+  * oxygen (TODO)
+  * CTD (TODO)
+  * Optical Backscatter (TODO)
   * etc.
 
 We anticipate the potential need to create additional marine_*_msgs packages.  The threshold for doing so should be (1) a group of closely related messages and/or (2) the need to define sub-messages.

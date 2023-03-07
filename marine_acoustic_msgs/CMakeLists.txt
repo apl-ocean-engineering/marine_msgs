@@ -5,8 +5,7 @@ message("Creating Package: ${PACKAGE_NAME}")
 
 project(${PACKAGE_NAME})
 
-find_package(catkin REQUIRED COMPONENTS geometry_msgs
-                                        message_generation
+find_package(catkin REQUIRED COMPONENTS geometry_msgs message_generation
                                         std_msgs)
 
 file(

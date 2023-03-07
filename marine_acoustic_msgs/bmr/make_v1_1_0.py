@@ -193,4 +193,3 @@ if __name__ == "__main__":
 
         sonar_ranges = make_SonarRanges()
         bag.write("sonar_ranges", sonar_ranges)
-

@@ -32,8 +32,11 @@
   <depend>rosbag_migration_rule</depend>
 
   <export>
-    <rosbag_migration_rule rule_file="bmr/projected_sonar_image.bmr"/>
-    <rosbag_migration_rule rule_file="bmr/package_rename.bmr"/>
+    <!-- Migrate old SonarImage type to ProjectedSonarImage. -->
+    <rosbag_migration_rule rule_file="bmr/order00_projected_sonar_image.bmr"/>
+    <!-- Rename all message types from hydrographic_msgs/acoustic_msgs
+         to marine_msgs/marine_acoustic_msgs. -->
+    <rosbag_migration_rule rule_file="bmr/order02_package_rename.bmr"/>
   </export>
 
 </package>

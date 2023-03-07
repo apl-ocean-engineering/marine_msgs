@@ -1,3 +1,213 @@
+class update_acoustic_msgs_RawSonarImage_84d7210aa67320a9262e0908f3e466c5(
+    MessageUpdateRule
+):
+    old_type = "acoustic_msgs/RawSonarImage"
+    old_full_text = """
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+float32 sample_rate   # hz
+
+uint32  samples_per_beam  # the number of samples in each beam
+
+# Many sonars have some kind of upper gate for water column data
+# this represents the sample number of the first non empty sample
+# for beam n
+uint32 sample0
+
+# Multi-sector multibeams can transmit different sectors at different times
+# The Reson doesn't but we include a TX delay for each beam anyway.
+#
+# Overall, therefore, our overall time is:
+#
+# header.stamp: TX cycle starts
+# Each beam's TX time: header.stamp + transmit_delay[i]
+# Each beam's RX time: header.stamp + transmit_delay[i] + sample_rate*image_row
+float32[] tx_delays
+# Steering angle applied to tx beam
+# reported in radians
+float32[] tx_angles
+
+# Steering angle applied to rx beam
+# reported in radians
+float32[] rx_angles
+
+SonarImageData image
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: acoustic_msgs/SonarImageData
+bool    is_bigendian
+
+uint32  DTYPE_UINT8 = 0
+uint32  DTYPE_INT8 = 1
+uint32  DTYPE_UINT16 = 2
+uint32  DTYPE_INT16 = 3
+uint32  DTYPE_UINT32 = 4
+uint32  DTYPE_INT32 = 5
+uint32  DTYPE_UINT64 = 6
+uint32  DTYPE_INT64 = 7
+uint32  DTYPE_FLOAT32 = 8
+uint32  DTYPE_FLOAT64 = 9
+
+uint32  dtype
+
+# the number of beams associated with the image
+uint32 beam_count
+
+# The actually pixel data in row-major (beam_index major) format
+uint8[] data
+"""
+    new_type = "marine_acoustic_msgs/RawSonarImage"
+    new_full_text = """
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+float32 sample_rate   # hz
+
+uint32  samples_per_beam  # the number of samples in each beam
+
+# Many sonars have some kind of upper gate for water column data
+# this represents the sample number of the first non empty sample
+# for beam n
+uint32 sample0
+
+# Multi-sector multibeams can transmit different sectors at different times
+# The Reson doesn't but we include a TX delay for each beam anyway.
+#
+# Overall, therefore, our overall time is:
+#
+# header.stamp: TX cycle starts
+# Each beam's TX time: header.stamp + transmit_delay[i]
+# Each beam's RX time: header.stamp + transmit_delay[i] + sample_rate*image_row
+float32[] tx_delays
+# Steering angle applied to tx beam
+# reported in radians
+float32[] tx_angles
+
+# Steering angle applied to rx beam
+# reported in radians
+float32[] rx_angles
+
+SonarImageData image
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: marine_acoustic_msgs/SonarImageData
+bool    is_bigendian
+
+uint32  DTYPE_UINT8 = 0
+uint32  DTYPE_INT8 = 1
+uint32  DTYPE_UINT16 = 2
+uint32  DTYPE_INT16 = 3
+uint32  DTYPE_UINT32 = 4
+uint32  DTYPE_INT32 = 5
+uint32  DTYPE_UINT64 = 6
+uint32  DTYPE_INT64 = 7
+uint32  DTYPE_FLOAT32 = 8
+uint32  DTYPE_FLOAT64 = 9
+
+uint32  dtype
+
+# the number of beams associated with the image
+uint32 beam_count
+
+# The actually pixel data in row-major (beam_index major) format
+uint8[] data
+"""
+
+    order = 2
+    migrated_types = [
+        ("std_msgs/Header", "std_msgs/Header"),
+        ("acoustic_msgs/PingInfo", "marine_acoustic_msgs/PingInfo"),
+        ("acoustic_msgs/SonarImageData", "marine_acoustic_msgs/SonarImageData"),
+    ]
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        self.migrate(old_msg.header, new_msg.header)
+        self.migrate(old_msg.ping_info, new_msg.ping_info)
+        new_msg.sample_rate = old_msg.sample_rate
+        new_msg.samples_per_beam = old_msg.samples_per_beam
+        new_msg.sample0 = old_msg.sample0
+        new_msg.tx_delays = old_msg.tx_delays
+        new_msg.tx_angles = old_msg.tx_angles
+        new_msg.rx_angles = old_msg.rx_angles
+        self.migrate(old_msg.image, new_msg.image)
+
+
 class update_acoustic_msgs_ProjectedSonarImage_c72fc8e29ab227a547720a36666022fd(
     MessageUpdateRule
 ):

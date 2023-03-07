@@ -1,0 +1,54 @@
+class update_environmental_msgs_TurbidityNTU_b4b87124a72fd9382c32394b1c07b23b(
+    MessageUpdateRule
+):
+    old_type = "environmental_msgs/TurbidityNTU"
+    old_full_text = """
+std_msgs/Header header
+float32 ntu
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+"""
+    new_type = "marine_sensor_msgs/TurbidityNTU"
+    new_full_text = """
+std_msgs/Header header
+float32 ntu
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+"""
+    order = 2
+    migrated_types = [
+        ("std_msgs/Header", "std_msgs/Header"),
+    ]
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        self.migrate(old_msg.header, new_msg.header)
+        new_msg.ntu = old_msg.ntu

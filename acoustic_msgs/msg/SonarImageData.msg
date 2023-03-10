@@ -17,4 +17,6 @@ uint32  dtype
 uint32 beam_count
 
 # The actually pixel data in row-major (beam_index major) format
+# this can be interpreted as a 2d array with indicies beam_index and
+# sample_number
 uint8[] data

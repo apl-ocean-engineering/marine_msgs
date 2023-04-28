@@ -1,0 +1,1301 @@
+class update_acoustic_msgs_Dvl_f09bbfba6f467f84523073fb27d38e3e(MessageUpdateRule):
+    old_type = "acoustic_msgs/Dvl"
+    old_full_text = """
+# Message for single ground-track ping from a DVL.
+#
+# This message is modeled after WHOI's Dvl.msg from the ds_sensor_msgs
+# repository, which was released under a BSD license.
+# Modifications were made by UW-APL.
+
+# ENUM: Velocity mode
+uint8 DVL_MODE_BOTTOM=1
+uint8 DVL_MODE_WATER=2
+
+# ENUM: DVL Type; used in sound velocity corrections
+
+# Standard (Janus) array with one piston transducer for each beam.
+# If you have 4-5 individual disks on your DVL, use this one.
+# Examples include Sonardyne Syrinx, Nortek DVLs, and RDI Workhorse
+uint8 DVL_TYPE_PISTON=0
+
+# Phased-array DVL.  If you have one giant disk with complicated stuff
+# on it, probably this one.
+# Examples include newer RDI DVLs such as pathfinder, pioneer, and tasman.
+uint8 DVL_TYPE_PHASED_ARRAY=1
+
+# The standard ROS header.
+# Timestamp is neither transmit nor receive time -- it is the time that
+# the velocity should be considered valid at.
+# Frame convention:
+# * z-axis in direction DVL is pointing
+# * x-axis aligned with vehicle forward
+std_msgs/Header header
+
+# Velocity mode (see above)
+uint8 velocity_mode
+
+# Type of DVL array employed (see above).  Necessary when
+# deciding how to apply sound velocity corrections
+uint8 dvl_type
+
+# Velocities [m/s]
+geometry_msgs/Vector3 velocity
+
+# row-major, xyz axes.  Set to "-1" if not known.
+float64[9] velocity_covar
+
+# Average altitude of all good beam returns.
+# For 30-deg sensor, altitude = (sqrt(3) / 2) * sum(range) / num_good_beams
+float64 altitude
+# Calculated from xy velocities: course_gnd = atan2(velocity.y, velocity.x)
+float64 course_gnd
+# Calculated from xy velocities: speed_gnd = sqrt(velocity.x^2 + velocity.y^2)
+float64 speed_gnd
+
+uint8 num_good_beams
+
+# Speed of sound (m/s) used by the DVL
+float32 sound_speed
+
+# Beam data
+# Some DVLs/DVL configurations only report the derived velocities.
+bool beam_ranges_valid
+bool beam_velocities_valid
+
+# Geometry of each of the 4 beams
+geometry_msgs/Vector3[4] beam_unit_vec
+
+# beam_unit_vec[i] * range[i] is the point where the beam hits the seafloor.
+# For a 30-deg sensor, multiply by sqrt(3)/2 to get altitude.
+float64[4] range
+float32[4] range_covar
+
+# Beam quality flag.
+# The meaning of this flag is DVL-specific (at least for now).
+float32[4] beam_quality
+
+# Raw velocities for each beam [m/s].
+# Will be beam 1,2,3,4 velocity in beam coordinates
+float32[4] beam_velocity
+# Covariance, as always, should be -1 if unknown
+float32[4] beam_velocity_covar
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space.
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
+"""
+    new_type = "marine_acoustic_msgs/Dvl"
+    new_full_text = """
+# Message for single ground-track ping from a DVL.
+#
+# This message is modeled after WHOI's Dvl.msg from the ds_sensor_msgs
+# repository, which was released under a BSD license.
+# Modifications were made by UW-APL.
+
+# ENUM: Velocity mode
+uint8 DVL_MODE_BOTTOM=1
+uint8 DVL_MODE_WATER=2
+
+# ENUM: DVL Type; used in sound velocity corrections
+
+# Standard (Janus) array with one piston transducer for each beam.
+# If you have 4-5 individual disks on your DVL, use this one.
+# Examples include Sonardyne Syrinx, Nortek DVLs, and RDI Workhorse
+uint8 DVL_TYPE_PISTON=0
+
+# Phased-array DVL.  If you have one giant disk with complicated stuff
+# on it, probably this one.
+# Examples include newer RDI DVLs such as pathfinder, pioneer, and tasman.
+uint8 DVL_TYPE_PHASED_ARRAY=1
+
+# The standard ROS header.
+# Timestamp is neither transmit nor receive time -- it is the time that
+# the velocity should be considered valid at.
+# Frame convention:
+# * z-axis in direction DVL is pointing
+# * x-axis aligned with vehicle forward
+std_msgs/Header header
+
+# Velocity mode (see above)
+uint8 velocity_mode
+
+# Type of DVL array employed (see above).  Necessary when
+# deciding how to apply sound velocity corrections
+uint8 dvl_type
+
+# Velocities [m/s]
+geometry_msgs/Vector3 velocity
+
+# row-major, xyz axes.  Set to "-1" if not known.
+float64[9] velocity_covar
+
+# Average altitude of all good beam returns.
+# For 30-deg sensor, altitude = (sqrt(3) / 2) * sum(range) / num_good_beams
+float64 altitude
+# Calculated from xy velocities: course_gnd = atan2(velocity.y, velocity.x)
+float64 course_gnd
+# Calculated from xy velocities: speed_gnd = sqrt(velocity.x^2 + velocity.y^2)
+float64 speed_gnd
+
+uint8 num_good_beams
+
+# Speed of sound (m/s) used by the DVL
+float32 sound_speed
+
+# Beam data
+# Some DVLs/DVL configurations only report the derived velocities.
+bool beam_ranges_valid
+bool beam_velocities_valid
+
+# Geometry of each of the 4 beams
+geometry_msgs/Vector3[4] beam_unit_vec
+
+# beam_unit_vec[i] * range[i] is the point where the beam hits the seafloor.
+# For a 30-deg sensor, multiply by sqrt(3)/2 to get altitude.
+float64[4] range
+float32[4] range_covar
+
+# Beam quality flag.
+# The meaning of this flag is DVL-specific (at least for now).
+float32[4] beam_quality
+
+# Raw velocities for each beam [m/s].
+# Will be beam 1,2,3,4 velocity in beam coordinates
+float32[4] beam_velocity
+# Covariance, as always, should be -1 if unknown
+float32[4] beam_velocity_covar
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space.
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
+"""
+    order = 2
+    migrated_types = [
+        ("std_msgs/Header", "std_msgs/Header"),
+        ("geometry_msgs/Vector3", "geometry_msgs/Vector3"),
+    ]
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        self.migrate(old_msg.header, new_msg.header)
+        new_msg.velocity_mode = old_msg.velocity_mode
+        new_msg.dvl_type = old_msg.dvl_type
+        self.migrate(old_msg.velocity, new_msg.velocity)
+        new_msg.velocity_covar = old_msg.velocity_covar
+        new_msg.altitude = old_msg.altitude
+        new_msg.course_gnd = old_msg.course_gnd
+        new_msg.speed_gnd = old_msg.speed_gnd
+        new_msg.num_good_beams = old_msg.num_good_beams
+        new_msg.sound_speed = old_msg.sound_speed
+        new_msg.beam_ranges_valid = old_msg.beam_ranges_valid
+        new_msg.beam_velocities_valid = old_msg.beam_velocities_valid
+        self.migrate_array(
+            old_msg.beam_unit_vec, new_msg.beam_unit_vec, "geometry_msgs/Vector3"
+        )
+        new_msg.range = old_msg.range
+        new_msg.range_covar = old_msg.range_covar
+        new_msg.beam_quality = old_msg.beam_quality
+        new_msg.beam_velocity = old_msg.beam_velocity
+        new_msg.beam_velocity_covar = old_msg.beam_velocity_covar
+
+
+class update_acoustic_msgs_DetectionFlag_2c45bd69e61e55c2962ccd8337e7d00d(
+    MessageUpdateRule
+):
+    old_type = "acoustic_msgs/DetectionFlag"
+    old_full_text = """
+# Beam is OK
+uint8 DETECT_OK = 0
+# Beam is flagged as bad by the sonar.  Think hard before second-guessing
+uint8 DETECT_BAD_SONAR = 1
+# Beam is flagged as bad by some automated filter applied during processing.
+uint8 DETECT_BAD_FILTER = 2
+# Beam is flagged as bad by the user. This is probably not happening in
+# realtime, but is included here so the same message can be used throughout
+# a post-processing pipeline.
+uint8 DETECT_BAD_USER = 4
+
+# These arrays should have the same dimensions, and should match
+# the number of beams for this sonar.
+#
+# Some fields are optional.  Those should have 0 length.
+
+# Flag values for every beam
+uint8 flag
+"""
+    new_type = "marine_acoustic_msgs/DetectionFlag"
+    new_full_text = """
+# Beam is OK
+uint8 DETECT_OK = 0
+# Beam is flagged as bad by the sonar.  Think hard before second-guessing
+uint8 DETECT_BAD_SONAR = 1
+# Beam is flagged as bad by some automated filter applied during processing.
+uint8 DETECT_BAD_FILTER = 2
+# Beam is flagged as bad by the user. This is probably not happening in
+# realtime, but is included here so the same message can be used throughout
+# a post-processing pipeline.
+uint8 DETECT_BAD_USER = 4
+
+# These arrays should have the same dimensions, and should match
+# the number of beams for this sonar.
+#
+# Some fields are optional.  Those should have 0 length.
+
+# Flag values for every beam
+uint8 flag
+"""
+    order = 2
+    migrated_types = []
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        new_msg.flag = old_msg.flag
+
+
+class update_acoustic_msgs_PingInfo_a0641c363452e8f5b02c57db588deecc(MessageUpdateRule):
+    old_type = "acoustic_msgs/PingInfo"
+    old_full_text = """
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+"""
+    new_type = "marine_acoustic_msgs/PingInfo"
+    new_full_text = """
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+"""
+    order = 2
+    migrated_types = []
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        new_msg.frequency = old_msg.frequency
+        new_msg.sound_speed = old_msg.sound_speed
+        new_msg.tx_beamwidths = old_msg.tx_beamwidths
+        new_msg.rx_beamwidths = old_msg.rx_beamwidths
+
+
+class update_acoustic_msgs_SonarImageData_4daa9f67cfdb0ed22d5f2fe52c794da3(
+    MessageUpdateRule
+):
+    old_type = "acoustic_msgs/SonarImageData"
+    old_full_text = """
+bool    is_bigendian
+
+uint32  DTYPE_UINT8 = 0
+uint32  DTYPE_INT8 = 1
+uint32  DTYPE_UINT16 = 2
+uint32  DTYPE_INT16 = 3
+uint32  DTYPE_UINT32 = 4
+uint32  DTYPE_INT32 = 5
+uint32  DTYPE_UINT64 = 6
+uint32  DTYPE_INT64 = 7
+uint32  DTYPE_FLOAT32 = 8
+uint32  DTYPE_FLOAT64 = 9
+
+uint32  dtype
+
+# the number of beams associated with the image
+uint32 beam_count
+
+# The actually pixel data in row-major (beam_index major) format
+uint8[] data
+"""
+    new_type = "marine_acoustic_msgs/SonarImageData"
+    new_full_text = """
+bool    is_bigendian
+
+uint32  DTYPE_UINT8 = 0
+uint32  DTYPE_INT8 = 1
+uint32  DTYPE_UINT16 = 2
+uint32  DTYPE_INT16 = 3
+uint32  DTYPE_UINT32 = 4
+uint32  DTYPE_INT32 = 5
+uint32  DTYPE_UINT64 = 6
+uint32  DTYPE_INT64 = 7
+uint32  DTYPE_FLOAT32 = 8
+uint32  DTYPE_FLOAT64 = 9
+
+uint32  dtype
+
+# the number of beams associated with the image
+uint32 beam_count
+
+# The actually pixel data in row-major (beam_index major) format
+uint8[] data
+"""
+    order = 2
+    migrated_types = []
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        new_msg.is_bigendian = old_msg.is_bigendian
+        new_msg.dtype = old_msg.dtype
+        new_msg.beam_count = old_msg.beam_count
+        new_msg.data = old_msg.data
+
+
+class update_acoustic_msgs_SonarDetections_588993519ccaab99fb0df80256b440ff(
+    MessageUpdateRule
+):
+    old_type = "acoustic_msgs/SonarDetections"
+    old_full_text = """
+# Single ping from a multibeam sonar.
+#
+# This message is modeled after WHOI's MultibeamRaw.msg, from the
+# ds_multibeam_msgs package (released under a BSD license).
+# Modifications were made by UW-APL.
+
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+# Constants declaring whether each beam is good or bad.
+# This is implemented as an 8-bit masked value; it is possible for more
+# than one thing to flag beams as bad. To check if a beam is good, simply
+# check if it is zero.
+
+DetectionFlag[] flags
+
+# Truly raw multibeam data uses travel times rather than ranges.
+# reported in seconds
+float32[] two_way_travel_times
+
+# Multi-sector multibeams can transmit different sectors at different times
+# The Reson doesn't but we include a TX delay for each beam anyway.
+#
+# Overall, therefore, our overall time is:
+#
+# header.stamp: TX cycle starts
+# Each beam's TX time: header.stamp + txDelay[i]
+# Each beam's RX time: header.stamp + txDelay[i] + twowayTravelTime[i]
+# reported in seconds
+float32[] tx_delays
+
+# Sonar-reported intensity.  Usually uncalibrated and crude
+float32[] intensities
+
+# Sonar-reported along-track steering angle (applied to tx beam)
+# + forward, - aft for a downlooking sonar
+# reported in radians
+float32[] tx_angles
+
+# Sonar-reported across-track steering angle (applied to rx beam)
+# + to starboard, - to port for a downlooking sonar
+# reported in radians
+float32[] rx_angles
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: acoustic_msgs/DetectionFlag
+# Beam is OK
+uint8 DETECT_OK = 0
+# Beam is flagged as bad by the sonar.  Think hard before second-guessing
+uint8 DETECT_BAD_SONAR = 1
+# Beam is flagged as bad by some automated filter applied during processing.
+uint8 DETECT_BAD_FILTER = 2
+# Beam is flagged as bad by the user. This is probably not happening in
+# realtime, but is included here so the same message can be used throughout
+# a post-processing pipeline.
+uint8 DETECT_BAD_USER = 4
+
+# These arrays should have the same dimensions, and should match
+# the number of beams for this sonar.
+#
+# Some fields are optional.  Those should have 0 length.
+
+# Flag values for every beam
+uint8 flag
+"""
+    new_type = "marine_acoustic_msgs/SonarDetections"
+    new_full_text = """
+# Single ping from a multibeam sonar.
+#
+# This message is modeled after WHOI's MultibeamRaw.msg, from the
+# ds_multibeam_msgs package (released under a BSD license).
+# Modifications were made by UW-APL.
+
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+# Constants declaring whether each beam is good or bad.
+# This is implemented as an 8-bit masked value; it is possible for more
+# than one thing to flag beams as bad. To check if a beam is good, simply
+# check if it is zero.
+
+DetectionFlag[] flags
+
+# Truly raw multibeam data uses travel times rather than ranges.
+# reported in seconds
+float32[] two_way_travel_times
+
+# Multi-sector multibeams can transmit different sectors at different times
+# The Reson doesn't but we include a TX delay for each beam anyway.
+#
+# Overall, therefore, our overall time is:
+#
+# header.stamp: TX cycle starts
+# Each beam's TX time: header.stamp + txDelay[i]
+# Each beam's RX time: header.stamp + txDelay[i] + twowayTravelTime[i]
+# reported in seconds
+float32[] tx_delays
+
+# Sonar-reported intensity.  Usually uncalibrated and crude
+float32[] intensities
+
+# Sonar-reported along-track steering angle (applied to tx beam)
+# + forward, - aft for a downlooking sonar
+# reported in radians
+float32[] tx_angles
+
+# Sonar-reported across-track steering angle (applied to rx beam)
+# + to starboard, - to port for a downlooking sonar
+# reported in radians
+float32[] rx_angles
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: marine_acoustic_msgs/DetectionFlag
+# Beam is OK
+uint8 DETECT_OK = 0
+# Beam is flagged as bad by the sonar.  Think hard before second-guessing
+uint8 DETECT_BAD_SONAR = 1
+# Beam is flagged as bad by some automated filter applied during processing.
+uint8 DETECT_BAD_FILTER = 2
+# Beam is flagged as bad by the user. This is probably not happening in
+# realtime, but is included here so the same message can be used throughout
+# a post-processing pipeline.
+uint8 DETECT_BAD_USER = 4
+
+# These arrays should have the same dimensions, and should match
+# the number of beams for this sonar.
+#
+# Some fields are optional.  Those should have 0 length.
+
+# Flag values for every beam
+uint8 flag
+"""
+    order = 2
+    migrated_types = [
+        ("std_msgs/Header", "std_msgs/Header"),
+        ("acoustic_msgs/PingInfo", "marine_acoustic_msgs/PingInfo"),
+        ("acoustic_msgs/DetectionFlag", "marine_acoustic_msgs/DetectionFlag"),
+    ]
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        self.migrate(old_msg.header, new_msg.header)
+        self.migrate(old_msg.ping_info, new_msg.ping_info)
+        self.migrate_array(
+            old_msg.flags, new_msg.flags, "marine_acoustic_msgs/DetectionFlag"
+        )
+        new_msg.two_way_travel_times = old_msg.two_way_travel_times
+        new_msg.tx_delays = old_msg.tx_delays
+        new_msg.intensities = old_msg.intensities
+        new_msg.tx_angles = old_msg.tx_angles
+        new_msg.rx_angles = old_msg.rx_angles
+
+
+class update_acoustic_msgs_RawSonarImage_84d7210aa67320a9262e0908f3e466c5(
+    MessageUpdateRule
+):
+    old_type = "acoustic_msgs/RawSonarImage"
+    old_full_text = """
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+float32 sample_rate   # hz
+
+uint32  samples_per_beam  # the number of samples in each beam
+
+# Many sonars have some kind of upper gate for water column data
+# this represents the sample number of the first non empty sample
+# for beam n
+uint32 sample0
+
+# Multi-sector multibeams can transmit different sectors at different times
+# The Reson doesn't but we include a TX delay for each beam anyway.
+#
+# Overall, therefore, our overall time is:
+#
+# header.stamp: TX cycle starts
+# Each beam's TX time: header.stamp + transmit_delay[i]
+# Each beam's RX time: header.stamp + transmit_delay[i] + sample_rate*image_row
+float32[] tx_delays
+# Steering angle applied to tx beam
+# reported in radians
+float32[] tx_angles
+
+# Steering angle applied to rx beam
+# reported in radians
+float32[] rx_angles
+
+SonarImageData image
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: acoustic_msgs/SonarImageData
+bool    is_bigendian
+
+uint32  DTYPE_UINT8 = 0
+uint32  DTYPE_INT8 = 1
+uint32  DTYPE_UINT16 = 2
+uint32  DTYPE_INT16 = 3
+uint32  DTYPE_UINT32 = 4
+uint32  DTYPE_INT32 = 5
+uint32  DTYPE_UINT64 = 6
+uint32  DTYPE_INT64 = 7
+uint32  DTYPE_FLOAT32 = 8
+uint32  DTYPE_FLOAT64 = 9
+
+uint32  dtype
+
+# the number of beams associated with the image
+uint32 beam_count
+
+# The actually pixel data in row-major (beam_index major) format
+uint8[] data
+"""
+    new_type = "marine_acoustic_msgs/RawSonarImage"
+    new_full_text = """
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+float32 sample_rate   # hz
+
+uint32  samples_per_beam  # the number of samples in each beam
+
+# Many sonars have some kind of upper gate for water column data
+# this represents the sample number of the first non empty sample
+# for beam n
+uint32 sample0
+
+# Multi-sector multibeams can transmit different sectors at different times
+# The Reson doesn't but we include a TX delay for each beam anyway.
+#
+# Overall, therefore, our overall time is:
+#
+# header.stamp: TX cycle starts
+# Each beam's TX time: header.stamp + transmit_delay[i]
+# Each beam's RX time: header.stamp + transmit_delay[i] + sample_rate*image_row
+float32[] tx_delays
+# Steering angle applied to tx beam
+# reported in radians
+float32[] tx_angles
+
+# Steering angle applied to rx beam
+# reported in radians
+float32[] rx_angles
+
+SonarImageData image
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: marine_acoustic_msgs/SonarImageData
+bool    is_bigendian
+
+uint32  DTYPE_UINT8 = 0
+uint32  DTYPE_INT8 = 1
+uint32  DTYPE_UINT16 = 2
+uint32  DTYPE_INT16 = 3
+uint32  DTYPE_UINT32 = 4
+uint32  DTYPE_INT32 = 5
+uint32  DTYPE_UINT64 = 6
+uint32  DTYPE_INT64 = 7
+uint32  DTYPE_FLOAT32 = 8
+uint32  DTYPE_FLOAT64 = 9
+
+uint32  dtype
+
+# the number of beams associated with the image
+uint32 beam_count
+
+# The actually pixel data in row-major (beam_index major) format
+uint8[] data
+"""
+
+    order = 2
+    migrated_types = [
+        ("std_msgs/Header", "std_msgs/Header"),
+        ("acoustic_msgs/PingInfo", "marine_acoustic_msgs/PingInfo"),
+        ("acoustic_msgs/SonarImageData", "marine_acoustic_msgs/SonarImageData"),
+    ]
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        self.migrate(old_msg.header, new_msg.header)
+        self.migrate(old_msg.ping_info, new_msg.ping_info)
+        new_msg.sample_rate = old_msg.sample_rate
+        new_msg.samples_per_beam = old_msg.samples_per_beam
+        new_msg.sample0 = old_msg.sample0
+        new_msg.tx_delays = old_msg.tx_delays
+        new_msg.tx_angles = old_msg.tx_angles
+        new_msg.rx_angles = old_msg.rx_angles
+        self.migrate(old_msg.image, new_msg.image)
+
+
+class update_acoustic_msgs_ProjectedSonarImage_c72fc8e29ab227a547720a36666022fd(
+    MessageUpdateRule
+):
+    old_type = "acoustic_msgs/ProjectedSonarImage"
+    old_full_text = """
+# Single scan from an imaging sonar
+#
+# The Z-axis is centered in the plane of the fan ("forward"), with X up,
+# in order to be consistent with the NED for traditional multibeam profilers.
+#
+# For sonars with a 1D array, the beams lie on the Y-Z plane, and
+# and each beam has an azimuth (rotation about X) value.  Zero azimuth
+# is in the direction of the Z-axis, typically "straight out" from the sonar.
+# Elevation is the orthogonal direction (rotation about Y),
+# often termed the "vertical aperture"
+
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+geometry_msgs/Vector3[] beam_directions
+
+# Center of each range bin in meters. Note this these may not be equally
+# spaced, and do not necessarily start at zero range.
+float32[] ranges
+
+SonarImageData image
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space.
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
+================================================================================
+MSG: acoustic_msgs/SonarImageData
+bool    is_bigendian
+
+uint32  DTYPE_UINT8 = 0
+uint32  DTYPE_INT8 = 1
+uint32  DTYPE_UINT16 = 2
+uint32  DTYPE_INT16 = 3
+uint32  DTYPE_UINT32 = 4
+uint32  DTYPE_INT32 = 5
+uint32  DTYPE_UINT64 = 6
+uint32  DTYPE_INT64 = 7
+uint32  DTYPE_FLOAT32 = 8
+uint32  DTYPE_FLOAT64 = 9
+
+uint32  dtype
+
+# the number of beams associated with the image
+uint32 beam_count
+
+# The actually pixel data in row-major (beam_index major) format
+uint8[] data
+"""
+    new_type = "marine_acoustic_msgs/ProjectedSonarImage"
+    new_full_text = """
+# Single scan from an imaging sonar
+#
+# The Z-axis is centered in the plane of the fan ("forward"), with X up,
+# in order to be consistent with the NED for traditional multibeam profilers.
+#
+# For sonars with a 1D array, the beams lie on the Y-Z plane, and
+# and each beam has an azimuth (rotation about X) value.  Zero azimuth
+# is in the direction of the Z-axis, typically "straight out" from the sonar.
+# Elevation is the orthogonal direction (rotation about Y),
+# often termed the "vertical aperture"
+
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+geometry_msgs/Vector3[] beam_directions
+
+# Center of each range bin in meters. Note this these may not be equally
+# spaced, and do not necessarily start at zero range.
+float32[] ranges
+
+SonarImageData image
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space.
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
+================================================================================
+MSG: marine_acoustic_msgs/SonarImageData
+bool    is_bigendian
+
+uint32  DTYPE_UINT8 = 0
+uint32  DTYPE_INT8 = 1
+uint32  DTYPE_UINT16 = 2
+uint32  DTYPE_INT16 = 3
+uint32  DTYPE_UINT32 = 4
+uint32  DTYPE_INT32 = 5
+uint32  DTYPE_UINT64 = 6
+uint32  DTYPE_INT64 = 7
+uint32  DTYPE_FLOAT32 = 8
+uint32  DTYPE_FLOAT64 = 9
+
+uint32  dtype
+
+# the number of beams associated with the image
+uint32 beam_count
+
+# The actually pixel data in row-major (beam_index major) format
+uint8[] data
+"""
+
+    order = 2
+    migrated_types = [
+        ("std_msgs/Header", "std_msgs/Header"),
+        ("geometry_msgs/Vector3", "geometry_msgs/Vector3"),
+        ("acoustic_msgs/PingInfo", "marine_acoustic_msgs/PingInfo"),
+        ("acoustic_msgs/SonarImageData", "marine_acoustic_msgs/SonarImageData"),
+    ]
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        self.migrate(old_msg.header, new_msg.header)
+        self.migrate(old_msg.ping_info, new_msg.ping_info)
+        self.migrate_array(
+            old_msg.beam_directions, new_msg.beam_directions, "geometry_msgs/Vector3"
+        )
+        new_msg.ranges = old_msg.ranges
+        self.migrate(old_msg.image, new_msg.image)
+
+
+class update_acoustic_msgs_SonarRanges_be94c27604dc96cadea282ffc5faacb9(
+    MessageUpdateRule
+):
+    old_type = "acoustic_msgs/SonarRanges"
+    old_full_text = """
+# Single ping from a profiling sonar.
+#
+# This message is modeled after WHOI's MultibeamRaw.msg, from the
+# ds_multibeam_msgs package (released under a BSD license).
+# Modifications were made by UW-APL.
+
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+# Constants declaring whether each beam is good or bad.
+# This is implemented as an 8-bit masked value; it is possible for more
+# than one thing to flag beams as bad. To check if a beam is good, simply
+# check if it is zero.
+
+DetectionFlag[] flags
+
+# Multi-sector multibeams can transmit different sectors at different times
+# The Reson doesn't but we include a TX delay for each beam anyway.
+#
+# Overall, therefore, our overall time is:
+#
+# header.stamp: TX cycle starts
+# Each beam's TX time: header.stamp + txDelay[i]
+# Each beam's RX time: header.stamp + txDelay[i] + twowayTravelTime[i]
+float32[] transmit_delays
+
+# Sonar-reported intensity.  Usually uncalibrated and crude
+float32[] intensities
+
+geometry_msgs/Vector3[] beam_unit_vec
+
+float32[] ranges
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: acoustic_msgs/DetectionFlag
+# Beam is OK
+uint8 DETECT_OK = 0
+# Beam is flagged as bad by the sonar.  Think hard before second-guessing
+uint8 DETECT_BAD_SONAR = 1
+# Beam is flagged as bad by some automated filter applied during processing.
+uint8 DETECT_BAD_FILTER = 2
+# Beam is flagged as bad by the user. This is probably not happening in
+# realtime, but is included here so the same message can be used throughout
+# a post-processing pipeline.
+uint8 DETECT_BAD_USER = 4
+
+# These arrays should have the same dimensions, and should match
+# the number of beams for this sonar.
+#
+# Some fields are optional.  Those should have 0 length.
+
+# Flag values for every beam
+uint8 flag
+
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space.
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
+"""
+    new_type = "marine_acoustic_msgs/SonarRanges"
+    new_full_text = """
+# Single ping from a profiling sonar.
+#
+# This message is modeled after WHOI's MultibeamRaw.msg, from the
+# ds_multibeam_msgs package (released under a BSD license).
+# Modifications were made by UW-APL.
+
+# The header time should be the time the ping was transmitted, not
+# the time the message was received.
+# Note that these two could potentially be several seconds apart,
+# especially in deep water.
+std_msgs/Header header
+
+PingInfo ping_info
+
+# Constants declaring whether each beam is good or bad.
+# This is implemented as an 8-bit masked value; it is possible for more
+# than one thing to flag beams as bad. To check if a beam is good, simply
+# check if it is zero.
+
+DetectionFlag[] flags
+
+# Multi-sector multibeams can transmit different sectors at different times
+# The Reson doesn't but we include a TX delay for each beam anyway.
+#
+# Overall, therefore, our overall time is:
+#
+# header.stamp: TX cycle starts
+# Each beam's TX time: header.stamp + txDelay[i]
+# Each beam's RX time: header.stamp + txDelay[i] + twowayTravelTime[i]
+float32[] transmit_delays
+
+# Sonar-reported intensity.  Usually uncalibrated and crude
+float32[] intensities
+
+geometry_msgs/Vector3[] beam_unit_vec
+
+float32[] ranges
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_acoustic_msgs/PingInfo
+# Center frequency of sonar in Hz
+# Set to 0 if unavailable
+float32 frequency
+
+# Speed of sound (m/s) used to calculate ranges;
+# Set to 0 if unavailable
+float32 sound_speed
+
+# Sonar reported -3db beamwidths
+# May be empty if not reported
+# reported in radians
+float32[] tx_beamwidths
+float32[] rx_beamwidths
+
+================================================================================
+MSG: marine_acoustic_msgs/DetectionFlag
+# Beam is OK
+uint8 DETECT_OK = 0
+# Beam is flagged as bad by the sonar.  Think hard before second-guessing
+uint8 DETECT_BAD_SONAR = 1
+# Beam is flagged as bad by some automated filter applied during processing.
+uint8 DETECT_BAD_FILTER = 2
+# Beam is flagged as bad by the user. This is probably not happening in
+# realtime, but is included here so the same message can be used throughout
+# a post-processing pipeline.
+uint8 DETECT_BAD_USER = 4
+
+# These arrays should have the same dimensions, and should match
+# the number of beams for this sonar.
+#
+# Some fields are optional.  Those should have 0 length.
+
+# Flag values for every beam
+uint8 flag
+
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space.
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
+"""
+    order = 2
+    migrated_types = [
+        ("std_msgs/Header", "std_msgs/Header"),
+        ("acoustic_msgs/PingInfo", "marine_acoustic_msgs/PingInfo"),
+        ("acoustic_msgs/DetectionFlag", "marine_acoustic_msgs/DetectionFlag"),
+        ("geometry_msgs/Vector3", "geometry_msgs/Vector3"),
+    ]
+    valid = True
+
+    def update(self, old_msg, new_msg):
+        self.migrate(old_msg.header, new_msg.header)
+        self.migrate(old_msg.ping_info, new_msg.ping_info)
+        self.migrate_array(
+            old_msg.flags, new_msg.flags, "marine_acoustic_msgs/DetectionFlag"
+        )
+        new_msg.transmit_delays = old_msg.transmit_delays
+        new_msg.intensities = old_msg.intensities
+        self.migrate_array(
+            old_msg.beam_unit_vec, new_msg.beam_unit_vec, "geometry_msgs/Vector3"
+        )
+        new_msg.ranges = old_msg.ranges

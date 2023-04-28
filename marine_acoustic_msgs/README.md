@@ -1,23 +1,6 @@
-## acoustic_msgs
+## marine_acoustic_msgs
 
-Messages for DVLs, multibeams, and imaging sonars.
-
-
-
-## Motivation
-
-In the past few years, the community has had a number of discussions on standardizing
-UUV messages in ROS, starting at the [2018 BTS workshop](https://discourse.ros.org/t/bts-2018-workshop-adoption-of-conventions-in-the-underwater-ros-community/5389)
-and then at [WHOI’s 2019 ROS workshop](https://www2.whoi.edu/staff/ckaiser/ros-workshop/),
-following up with discussion in the [marine_ros_conventions repository](https://github.com/udgcirs/marine_ros_conventions_discussion).
-The overall discussion has been fairly broad, but I propose starting with the sensor
-messages because they are more mature and have the highest payoff for standardizing. E.g.:
-* Shared drivers
-* Shared bagfiles
-* Shared RVIZ plugins
-* Prerequisite for shared perception pipelines
-
-This proposal includes messages for three commonly used sensors for research in underwater autonomy:
+This package includes messages for three commonly used sensors for research in underwater autonomy:
 * DVL
 * Multibeam
 * Imaging Sonar
@@ -25,7 +8,10 @@ This proposal includes messages for three commonly used sensors for research in 
 Each of the proposed messages is based on an existing
 message that is currently in use across a variety of manufacturers of the
 same instrument type. This gives us confidence that they are mature enough
-for inclusion in sensor_msgs and that they will generalize across other sensors.
+to be indexed in the ROS debs and that they will generalize across other sensors.
+
+## Coordinate Frame Conventions
+![cordiante_conventions](https://user-images.githubusercontent.com/23006525/167165812-008ccccb-31a7-4c13-b2da-6235d37a7a3b.png)
 
 ## Design decisions common across multiple acoustic messages
 
@@ -78,9 +64,6 @@ adheres to these guidelines:
   * SonarImage.msg instead of ImagingSonar.msg
   * SonarRanges.msg instead of Multibeam.msg or ProfilingSonar.msg.
 
-## Coordinate Frame Conventions
-![cordiante_conventions](https://user-images.githubusercontent.com/23006525/167165812-008ccccb-31a7-4c13-b2da-6235d37a7a3b.png)
-
 ## DVL
 ### Existing Messages
 
@@ -113,7 +96,7 @@ from the instrument (estimated altitude and velocity), they differ in what else 
 
 ### Proposed Message
 
-https://github.com/apl-ocean-engineering/hydrographic_msgs/blob/main/acoustic_msgs/msg/Dvl.msg
+https://github.com/apl-ocean-engineering/marine_msgs/blob/main/marine_acoustic_msgs/msg/Dvl.msg
 
 This message started with WHOI’s definition, which has been used in
 drivers for Nortek and RDI DVLs. There are also corresponding rviz

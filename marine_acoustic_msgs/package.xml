@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>marine_acoustic_msgs</name>
+  <version>1.1.0</version>
+  <description>The marine_acoustic_msgs package, including messages for common
+  underwater sensors (DVL, multibeam sonar, imaging sonar)
+  </description>
+
+  <maintainer email="lindzey@uw.edu">Laura Lindzey</maintainer>
+
+  <license>BSD-3-Clause</license>
+
+  <author email="amarburg@apl.washington.edu">Aaron Marburg</author>
+  <author email="ivaughn@whoi.edu">Ian Vaughn</author>
+  <author email="kris@seaward.science">Kris Krasnosky</author>
+  <author email="lindzey@uw.edu">Laura Lindzey</author>
+  <author email="roland@ccom.unh.edu">Roland Arsenault</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <build_export_depend>geometry_msgs</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+  <depend>rosbag_migration_rule</depend>
+
+  <export>
+    <!-- Migrate old SonarImage type to ProjectedSonarImage. -->
+    <rosbag_migration_rule rule_file="bmr/order00_projected_sonar_image.bmr"/>
+    <!-- Rename all message types from hydrographic_msgs/acoustic_msgs
+         to marine_msgs/marine_acoustic_msgs. -->
+    <rosbag_migration_rule rule_file="bmr/order02_package_rename.bmr"/>
+  </export>
+
+</package>

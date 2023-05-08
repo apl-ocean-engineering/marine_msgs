@@ -6,7 +6,8 @@ project(${PACKAGE_NAME})
 
 find_package(catkin REQUIRED COMPONENTS message_generation std_msgs)
 
-add_message_files(DIRECTORY msg FILES TurbidityNTU.msg)
+add_message_files(DIRECTORY msg FILES RadarEcho.msg RadarSector.msg
+                  TurbidityNTU.msg)
 
 generate_messages(DEPENDENCIES std_msgs)
 

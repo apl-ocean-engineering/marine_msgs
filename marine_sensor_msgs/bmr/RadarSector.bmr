@@ -1,0 +1,602 @@
+import math
+
+class update_marine_sensor_msgs_RadarScanline_8621d97f7489a206598e189d17efed48(MessageUpdateRule):
+	old_type = "marine_sensor_msgs/RadarScanline"
+	old_full_text = """
+# The radar beams are in the XY plane with the forward direction
+# towards the positive X axis.
+float32 angle # conter-clockwise radians relative to the X axis
+float32 range # distance to the last intensity sample in meters
+uint8[] intensities
+"""
+	new_type = "marine_sensor_msgs/RadarEcho"
+	new_full_text = """
+# This message is a submessage of RadarSector and is not intended
+# to be used separately.
+
+float32[] echoes  # Multiple values of ranges or intensities.
+                  # Each array represents data from the same angle increment.
+"""
+
+	order = 0
+
+	valid = True
+
+	def update(self, old_msg, new_msg):
+		for i in old_msg.intensities:
+			new_msg.echoes.append(16*i/255.0) # from unsigned byte using 4 bits to float
+
+
+class update_marine_sensor_msgs_RadarSector_506568e93894dc96631b7dd09e5fca64(MessageUpdateRule):
+	old_type = "marine_sensor_msgs/RadarSector"
+	old_full_text = """
+# A collection of radar scanlines, typically covering a contiguous
+# arc of a full circle.
+Header header
+RadarScanline[] scanlines
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_sensor_msgs/RadarScanline
+# The radar beams are in the XY plane with the forward direction
+# towards the positive X axis.
+float32 angle # conter-clockwise radians relative to the X axis
+float32 range # distance to the last intensity sample in meters
+uint8[] intensities
+"""
+
+	new_type = "marine_sensor_msgs/RadarSector"
+	new_full_text = """
+# A collection of marine radar rays, typically covering a contiguous
+# arc of a full circle.
+
+Header header            # timestamp in the header is the acquisition time of
+                         # the first ray in the scan.
+                         #
+                         # in frame frame_id, angles are measured around
+                         # the positive Z axis (counterclockwise, if Z is up)
+                         # with zero angle being forward along the x axis
+
+float32 angle_min        # start angle of the scan [rad]
+float32 angle_max        # end angle of the scan [rad]
+float32 angle_increment  # angular distance between measurements [rad]
+
+float32 time_increment   # time between measurements [seconds] - if your scanner
+                         # is moving, this will be used in interpolating position
+                         # of 3d points
+float32 scan_time        # time between scans [seconds]
+
+float32 range_min        # minimum range value [m]
+float32 range_max        # maximum range value [m]
+
+RadarEcho[] intensities  # intensity data [device-specific units].  If your
+                         # device does not provide intensities, please leave
+                         # the array empty.
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_sensor_msgs/RadarEcho
+# This message is a submessage of RadarSector and is not intended
+# to be used separately.
+
+float32[] echoes  # Multiple values of ranges or intensities.
+                  # Each array represents data from the same angle increment.
+"""
+
+	order = 0
+	migrated_types = [
+		("Header","Header"),
+		("RadarScanline","RadarEcho"),]
+
+	valid = True
+
+	def update(self, old_msg, new_msg):
+		import math
+
+		self.migrate(old_msg.header, new_msg.header)
+
+		new_msg.angle_min = 0.
+		new_msg.angle_max = 0.
+		new_msg.angle_increment = 0.
+
+		if len(old_msg.scanlines) > 0:
+			new_msg.angle_min = old_msg.scanlines[0].angle
+			new_msg.angle_max = old_msg.scanlines[-1].angle
+
+			if new_msg.angle_min != new_msg.angle_max:
+				# figure out angle increment
+				angle_diff = new_msg.angle_max-new_msg.angle_min
+				if angle_diff > 0.0:
+					direction = 1
+				else:
+					direction = -1
+				angle_diff = abs(angle_diff)
+				if angle_diff > math.pi: # wrapped
+					direction = -direction
+					angle_diff = abs(angle_diff-2.0*math.pi)
+				new_msg.angle_increment = direction*angle_diff/float(len(old_msg.scanlines)-1)
+
+		new_msg.time_increment = 0.
+		new_msg.scan_time = 0.
+		new_msg.range_min = 0.
+
+		new_msg.range_max = 0.
+		if len(old_msg.scanlines) > 0:
+			new_msg.range_max = old_msg.scanlines[0].range
+
+		self.migrate_array(old_msg.scanlines, new_msg.intensities, "marine_sensor_msgs/RadarEcho")
+
+
+
+class update_marine_sensor_msgs_RadarSector_259dcba22d9eef6bbf975532f1d02a6c(MessageUpdateRule):
+	old_type = "marine_sensor_msgs/RadarSector"
+	old_full_text = """
+# A collection of marine radar rays, typically covering a contiguous
+# arc of a full circle.
+
+Header header            # timestamp in the header is the acquisition time of
+                         # the first ray in the scan.
+                         #
+                         # in frame frame_id, angles are measured around
+                         # the positive Z axis (counterclockwise, if Z is up)
+                         # with zero angle being forward along the x axis
+
+float32 angle_min        # start angle of the scan [rad]
+float32 angle_max        # end angle of the scan [rad]
+float32 angle_increment  # angular distance between measurements [rad]
+
+float32 time_increment   # time between measurements [seconds] - if your scanner
+                         # is moving, this will be used in interpolating position
+                         # of 3d points
+float32 scan_time        # time between scans [seconds]
+
+float32 range_min        # minimum range value [m]
+float32 range_max        # maximum range value [m]
+
+RadarEcho[] intensities  # intensity data [device-specific units].  If your
+                         # device does not provide intensities, please leave
+                         # the array empty.
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_sensor_msgs/RadarEcho
+# This message is a submessage of RadarSector and is not intended
+# to be used separately.
+
+float32[] echoes  # Multiple values of ranges or intensities.
+                  # Each array represents data from the same angle increment.
+"""
+
+	new_type = "marine_sensor_msgs/RadarSector"
+	new_full_text = """
+# A collection of marine radar rays, typically covering a contiguous
+# arc of a full circle.
+
+Header header            # timestamp in the header is the acquisition time of
+                         # the first ray in the scan.
+                         #
+                         # in frame frame_id, angles are measured around
+                         # the positive Z axis (counterclockwise, if Z is up)
+                         # with zero angle being forward along the x axis
+
+float32 angle_start      # start angle of the scan [rad]
+float32 angle_increment  # angular distance between measurements [rad]
+
+float32 time_increment   # time between rays [seconds] - if your scanner
+                         # is moving, this will be used in interpolating position
+                         # of 3d points
+float32 scan_time        # time between complete scans [seconds]
+
+float32 range_min        # minimum range value [m]
+float32 range_max        # maximum range value [m]
+
+RadarEcho[] intensities  # intensity data [device-specific units].  If your
+                         # device does not provide intensities, please leave
+                         # the array empty.
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_sensor_msgs/RadarEcho
+# This message is a submessage of RadarSector and is not intended
+# to be used separately.
+
+float32[] echoes  # Series of intensities.
+                  # Each array represents data from the same angle increment.
+"""
+
+	order = 1
+	migrated_types = [
+		("Header","Header"),
+		("RadarEcho","RadarEcho"),]
+
+	valid = True
+
+	def update(self, old_msg, new_msg):
+		self.migrate(old_msg.header, new_msg.header)
+		new_msg.angle_start = old_msg.angle_min
+		new_msg.angle_increment = old_msg.angle_increment
+		new_msg.time_increment = old_msg.time_increment
+		new_msg.scan_time = old_msg.scan_time
+		new_msg.range_min = old_msg.range_min
+		new_msg.range_max = old_msg.range_max
+		self.migrate_array(old_msg.intensities, new_msg.intensities, "marine_sensor_msgs/RadarEcho")
+
+
+
+class update_marine_sensor_msgs_RadarSector_0fcc47780ed239ce40852f5b3361ec06(MessageUpdateRule):
+	old_type = "marine_sensor_msgs/RadarSector"
+	old_full_text = """
+# A collection of marine radar rays, typically covering a contiguous
+# arc of a full circle.
+
+Header header            # timestamp in the header is the acquisition time of
+                         # the first ray in the scan.
+                         #
+                         # in frame frame_id, angles are measured around
+                         # the positive Z axis (counterclockwise, if Z is up)
+                         # with zero angle being forward along the x axis
+
+float32 angle_start      # start angle of the scan [rad]
+float32 angle_increment  # angular distance between measurements [rad]
+
+float32 time_increment   # time between rays [seconds] - if your scanner
+                         # is moving, this will be used in interpolating position
+                         # of 3d points
+float32 scan_time        # time between complete scans [seconds]
+
+float32 range_min        # minimum range value [m]
+float32 range_max        # maximum range value [m]
+
+RadarEcho[] intensities  # intensity data [device-specific units].  If your
+                         # device does not provide intensities, please leave
+                         # the array empty.
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_sensor_msgs/RadarEcho
+# This message is a submessage of RadarSector and is not intended
+# to be used separately.
+
+float32[] echoes  # Series of intensities.
+                  # Each array represents data from the same angle increment.
+"""
+
+	new_type = "marine_sensor_msgs/RadarSector"
+	new_full_text = """
+# A collection of marine radar rays, typically covering a contiguous
+# arc of a full circle.
+
+Header header            # timestamp in the header is the acquisition time of
+                         # the first ray in the sector.
+                         #
+                         # in frame frame_id, angles are measured around
+                         # the positive Z axis (counterclockwise, if Z is up)
+                         # with zero angle being forward along the x axis
+
+float32 angle_start      # start angle of this sector [rad]
+float32 angle_increment  # angular distance between measurements [rad]
+
+duration time_increment  # time between rays [seconds] - if your scanner
+                         # is moving, this will be used in interpolating
+                         # position of 3d points
+duration scan_time       # time between two consecutive complete scans
+                         # or revolutions [seconds]
+
+float32 range_min        # range of first sample in each ray [m]
+float32 range_max        # range of last sample in each ray [m]
+
+RadarEcho[] intensities  # intensity data [device-specific units].
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_sensor_msgs/RadarEcho
+# This message is a submessage of RadarSector and is not intended
+# to be used separately.
+
+float32[] echoes  # Regularly spaced series of intensities from closest to
+                  # farthest. Each array represents data from the same
+                  # angle increment.
+
+================================================================================
+MSG: std_msgs/duration
+int32 secs
+int32 nsecs
+
+"""
+
+	order = 2
+	migrated_types = [
+		("Header","Header"),
+		("RadarEcho","RadarEcho"),]
+
+	valid = True
+
+	def update(self, old_msg, new_msg):
+		import rospy
+		self.migrate(old_msg.header, new_msg.header)
+
+		new_msg.angle_start = old_msg.angle_start
+		new_msg.angle_increment = old_msg.angle_increment
+
+		new_msg.time_increment = self.get_new_class('duration')()
+		ti = rospy.Duration.from_sec(old_msg.time_increment)
+		new_msg.time_increment.secs = ti.secs
+		new_msg.time_increment.nsecs = ti.nsecs
+
+		new_msg.scan_time = self.get_new_class('duration')()
+		st = rospy.Duration.from_sec(old_msg.scan_time)
+		new_msg.scan_time.secs = st.secs
+		new_msg.scan_time.nsecs = st.nsecs
+
+		new_msg.range_min = old_msg.range_min
+		new_msg.range_max = old_msg.range_max
+		self.migrate_array(old_msg.intensities, new_msg.intensities, "marine_sensor_msgs/RadarEcho")
+
+class update_marine_msgs_RadarScanline_8621d97f7489a206598e189d17efed48(MessageUpdateRule):
+	old_type = "marine_msgs/RadarScanline"
+	old_full_text = """
+float32 angle # degrees clockwise relative to forward (should we change to radians ccw from x axis?)
+float32 range # meters
+uint8[] intensities
+"""
+
+	new_type = "marine_sensor_msgs/RadarEcho"
+	new_full_text = """
+# This message is a submessage of RadarSector and is not intended
+# to be used separately. It represents intensities from a
+# single ray.
+
+# Series of intensities from closest to farthest
+# along a given angle increment. [device-specific units]
+float32[] echoes
+"""
+
+	order = 0
+	migrated_types = []
+
+	valid = True
+
+	def update(self, old_msg, new_msg):
+		for i in old_msg.intensities:
+			new_msg.echoes.append(16*i/255.0) # from unsigned byte using 4 bits to float
+
+
+class update_marine_msgs_RadarSectorStamped_2c4c300aa1a06324871b3f76f6b813c9(MessageUpdateRule):
+	old_type = "marine_msgs/RadarSectorStamped"
+	old_full_text = """
+Header header
+RadarSector sector
+
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_msgs/RadarSector
+
+marine_msgs/RadarScanline[] scanlines
+
+================================================================================
+MSG: marine_msgs/RadarScanline
+float32 angle # degrees clockwise relative to forward (should we change to radians ccw from x axis?)
+float32 range # meters
+uint8[] intensities
+"""
+
+	new_type = "marine_sensor_msgs/RadarSector"
+	new_full_text = """
+# A collection of marine radar rays, typically covering a contiguous
+# arc of a full circle.
+
+# timestamp in the header is the acquisition time of
+# the first ray in the sector.
+#
+# In frame frame_id, angles are measured around
+# the positive Z axis (counterclockwise, if Z is up)
+# with zero angle being forward along the X axis
+Header header
+
+# start angle of this sector [rad]
+float32 angle_start
+
+# angular distance between rays [rad]
+float32 angle_increment
+
+# time between rays [seconds] - if your scanner
+# is moving, this can be used in interpolating
+# position of 3d points
+duration time_increment
+
+# time between two consecutive complete scans
+# or revolutions [seconds]
+# Warning: On hardware that doesn't provide a timestamp,
+# time-related fields may be estimated and vary
+# from sector to sector as estimates are updated
+duration scan_time
+
+# range of the first sample in each ray [m]
+float32 range_min
+
+# range of the last sample in each ray [m]
+float32 range_max
+
+# intensity data [device-specific units].
+RadarEcho[] intensities
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data
+# in a particular coordinate frame.
+#
+# sequence ID: consecutively increasing ID
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+string frame_id
+
+================================================================================
+MSG: marine_sensor_msgs/RadarEcho
+# This message is a submessage of RadarSector and is not intended
+# to be used separately. It represents intensities from a
+# single ray.
+
+# Series of intensities from closest to farthest
+# along a given angle increment. [device-specific units]
+float32[] echoes
+
+================================================================================
+MSG: std_msgs/duration
+int32 secs
+int32 nsecs
+
+"""
+
+	order = 0
+	migrated_types = [
+		("Header","Header"),
+		("RadarScanline", "RadarEcho")
+	]
+
+	valid = True
+
+	def update(self, old_msg, new_msg):
+		self.migrate(old_msg.header, new_msg.header)
+
+		new_msg.angle_start = 0.
+		new_msg.angle_increment = 0.
+
+		if len(old_msg.sector.scanlines) > 0:
+			angle_start = 2.0*math.pi*(360.0-old_msg.sector.scanlines[0].angle)/360.0
+			if(len(old_msg.sector.scanlines) > 1):
+				angle_end = 2.0*math.pi*(360.0-old_msg.sector.scanlines[-1].angle)/360.0
+
+				# have we looped around (also make sure angle are decreasing)
+				if angle_end > angle_start and angle_end - angle_start > math.pi:
+					angle_end -= 2.0*math.pi
+
+				new_msg.angle_increment = (angle_end-angle_start)/float(len(old_msg.sector.scanlines)-1.0)
+			new_msg.angle_start = angle_start
+
+
+		new_msg.time_increment = self.get_new_class('duration')()
+		new_msg.time_increment.secs = 0
+		new_msg.time_increment.nsecs = 0
+
+		new_msg.scan_time = self.get_new_class('duration')()
+		new_msg.scan_time.secs = 0
+		new_msg.scan_time.nsecs = 0
+
+		new_msg.range_min = 0.
+		new_msg.range_max = 0.
+		if len(old_msg.sector.scanlines) > 0:
+			new_msg.range_max = old_msg.sector.scanlines[0].range
+
+		self.migrate_array(old_msg.sector.scanlines, new_msg.intensities, "marine_sensor_msgs/RadarEcho")

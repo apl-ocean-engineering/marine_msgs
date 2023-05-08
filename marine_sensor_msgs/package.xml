@@ -28,6 +28,7 @@
     <!-- Rename message types from hydrographic_msgs/environmental_msgs
          to marine_msgs/marine_sensor_msgs. -->
     <rosbag_migration_rule rule_file="bmr/order00_package_rename.bmr"/>
+    <rosbag_migration_rule rule_file="bmr/RadarSector.bmr"/>
   </export>
 
 

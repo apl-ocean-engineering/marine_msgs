@@ -19,8 +19,8 @@ foreach(rosMsg ${rosMsgFiles})
   set(MSG_FILES ${MSG_FILES} ${rosMsg})
 endforeach(rosMsg)
 
-rosidl_generate_interfaces(${PROJECT_NAME} ${MSG_FILES} DEPENDENCIES builtin_interfaces std_msgs
-                           geometry_msgs)
+rosidl_generate_interfaces(${PROJECT_NAME} ${MSG_FILES} DEPENDENCIES
+                           builtin_interfaces std_msgs geometry_msgs)
 
 ament_export_dependencies(rosidl_default_runtime)
 

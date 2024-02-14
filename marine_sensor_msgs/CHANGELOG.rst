@@ -2,6 +2,12 @@
 Changelog for package marine_sensor_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.1 (2024-02-13)
+------------------
+* Add radar message and migration rules. (`#40 <https://github.com/rolker/marine_msgs/issues/40>`_)
+  Add radar messages and migration rules.
+* Contributors: Roland Arsenault
+
 1.1.0 (2022-11-30)
 ------------------
 * Add CI, pre-commit, prerelease and dependabot (`#27 <https://github.com/apl-ocean-engineering/hydrographic_msgs/issues/27>`_)

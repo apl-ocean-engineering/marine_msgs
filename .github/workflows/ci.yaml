@@ -8,17 +8,17 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - ros2
 
 jobs:
   industrial_ci:
     strategy:
       matrix:
         env:
-          - {ROS_DISTRO: foxy, ROS_REPO: main}
-          - {ROS_DISTRO: foxy, ROS_REPO: testing}
           - {ROS_DISTRO: humble, ROS_REPO: main}
           - {ROS_DISTRO: humble, ROS_REPO: testing}
+          - {ROS_DISTRO: iron, ROS_REPO: main}
+          - {ROS_DISTRO: iron, ROS_REPO: testing}
           - {ROS_DISTRO: rolling, ROS_REPO: main}
           - {ROS_DISTRO: rolling, ROS_REPO: testing}
 

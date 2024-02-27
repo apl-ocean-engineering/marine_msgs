@@ -12,11 +12,11 @@ jobs:
       fail-fast: false
 
     env:
-      ROS_DISTRO: noetic
+      ROS_DISTRO: rolling
       PRERELEASE: true
       BASEDIR: ${{ github.workspace }}/.work
 
-    name: noetic
+    name: rolling
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

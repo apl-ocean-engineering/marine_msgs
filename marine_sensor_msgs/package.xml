@@ -7,11 +7,13 @@
   </description>
 
   <maintainer email="lindzey@uw.edu">Laura Lindzey</maintainer>
+  <maintainer email="roland@ccom.unh.edu">Roland Arsenault</maintainer>
 
   <license>BSD-3-Clause</license>
 
   <author email="amarburg@uw.edu">Aaron Marburg</author>
   <author email="lindzey@uw.edu">Laura Lindzey</author>
+  <author email="roland@ccom.unh.edu">Roland Arsenault</author>
 
   <buildtool_depend>catkin</buildtool_depend>
 

@@ -17,17 +17,19 @@ find_package(geometry_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(std_msgs REQUIRED)
 
-set(msg_files
+# cmake-format: off
+set(MSG_FILES
   "msg/RadarEcho.msg"
   "msg/RadarSector.msg"
   "msg/TurbidityNTU.msg"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  ${msg_files}
+  ${MSG_FILES}
   DEPENDENCIES builtin_interfaces geometry_msgs std_msgs
-  ADD_LINTER_TESTS  
+  ADD_LINTER_TESTS
 )
+# cmake-format: on
 
 ament_export_dependencies(rosidl_default_runtime)
 

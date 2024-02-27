@@ -14,7 +14,7 @@
   <author email="amarburg@uw.edu">Aaron Marburg</author>
   <author email="lindzey@uw.edu">Laura Lindzey</author>
   <author email="roland@ccom.unh.edu">Roland Arsenault</author>
-  
+
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>rosidl_default_generators</buildtool_depend>
 
@@ -25,6 +25,9 @@
   <build_export_depend>std_msgs</build_export_depend>
 
   <exec_depend>rosidl_default_runtime</exec_depend>
+
+  <test_depend>ament_cmake_cppcheck</test_depend>
+
   <member_of_group>rosidl_interface_packages</member_of_group>
 
   <exec_depend>builtin_interfaces</exec_depend>

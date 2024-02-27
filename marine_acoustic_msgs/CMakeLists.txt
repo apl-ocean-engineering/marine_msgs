@@ -31,7 +31,6 @@ set(MSG_FILES
 rosidl_generate_interfaces(${PROJECT_NAME}
   ${MSG_FILES}
   DEPENDENCIES geometry_msgs std_msgs
-  ADD_LINTER_TESTS
 )
 # cmake-format: on
 

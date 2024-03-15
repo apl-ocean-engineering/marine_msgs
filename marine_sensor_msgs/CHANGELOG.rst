@@ -2,8 +2,8 @@
 Changelog for package marine_sensor_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.2 (2024-03-15)
+------------------
 * Add Roland Arsenault as maintainer (`#55 <https://github.com/rolker/marine_msgs/issues/55>`_)
 * Contributors: Roland Arsenault
 

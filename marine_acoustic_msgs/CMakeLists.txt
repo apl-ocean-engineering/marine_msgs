@@ -1,22 +1,20 @@
 cmake_minimum_required(VERSION 3.0.2)
 
-get_filename_component(PACKAGE_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-message("Creating Package: ${PACKAGE_NAME}")
-
-project(${PACKAGE_NAME})
+project(marine_acoustic_msgs)
 
 find_package(catkin REQUIRED COMPONENTS geometry_msgs message_generation
                                         std_msgs)
 
-file(
-  GLOB rosMsgFiles
-  RELATIVE "${${PROJECT_NAME}_SOURCE_DIR}/msg"
-  "${${PROJECT_NAME}_SOURCE_DIR}/msg/*.msg")
-
-foreach(rosMsg ${rosMsgFiles})
-  message(STATUS "Processing message file: ${rosMsg}")
-  add_message_files(FILES ${rosMsg})
-endforeach(rosMsg)
+add_message_files(
+  FILES
+  DetectionFlag.msg
+  Dvl.msg
+  PingInfo.msg
+  ProjectedSonarImage.msg
+  RawSonarImage.msg
+  SonarDetections.msg
+  SonarImageData.msg
+  SonarRanges.msg)
 
 generate_messages(DEPENDENCIES geometry_msgs std_msgs)
 

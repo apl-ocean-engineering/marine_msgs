@@ -2,8 +2,8 @@
 Changelog for package marine_acoustic_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.2 (2024-03-15)
+------------------
 
 * Update CMake files to follow established standards
 * Add Roland Arsenault as maintainer

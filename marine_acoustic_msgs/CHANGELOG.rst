@@ -2,6 +2,11 @@
 Changelog for package marine_acoustic_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add Roland Arsenault as maintainer (`#55 <https://github.com/rolker/marine_msgs/issues/55>`_)
+* Contributors: Roland Arsenault
+
 2.0.1 (2024-02-13)
 ------------------
 

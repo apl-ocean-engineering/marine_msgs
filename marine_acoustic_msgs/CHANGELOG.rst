@@ -2,14 +2,15 @@
 Changelog for package marine_acoustic_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.0.2 (2024-03-15)
-------------------
+Forthcoming
+-----------
 
 * Update CMake files to follow established standards
 * Add Roland Arsenault as maintainer
 * Update ros2 CI to use current ROS2 distributions (`#56 <https://github.com/apl-ocean-engineering/marine_msgs/issues/56>`_)
 * Updated ros2 branch to be in line with revisions in main (`#44 <https://github.com/apl-ocean-engineering/marine_msgs/issues/44>`_)
 * Contributors: Roland Arsenault, Sean Fish, Laura Lindzey
+
 
 1.1.0 (2022-11-30)
 ------------------
